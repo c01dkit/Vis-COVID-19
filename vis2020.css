@@ -1,0 +1,116 @@
+        body {
+            margin: 0;
+            background: black;
+            overflow: auto;
+        }
+        
+        #title {
+            position: absolute;
+            width: 100%;
+            height: 7%;
+            text-align: center;
+            background-color: #222222;
+            border-style: solid;
+            border-width: 10px;
+            border-color: black;
+            overflow: hidden;
+        }
+        
+        #left {
+            position: absolute;
+            top: 7%;
+            bottom: 5%;
+            width: 18%;
+            height: 90%;
+        }
+        
+        #left1 {
+            position: relative;
+            width: 100%;
+            height: 20%;
+            text-align: center;
+            background-color: #222222;
+            border-style: solid;
+            border-width: 10px;
+            border-color: black;
+        }
+        
+        #left2 {
+            position: relative;
+            width: 100%;
+            height: 80%;
+            bottom: 5%;
+            text-align: center;
+            background-color: #222222;
+            border-style: solid;
+            border-width: 10px;
+            border-color: black;
+            overflow: auto;
+        }
+        
+        #center {
+            position: absolute;
+            top: 7%;
+            bottom: 5%;
+            left: 18%;
+            width: 60%;
+            height: 100%;
+        }
+        
+        #map {
+            position: relative;
+            width: 100%;
+            height: 88%;
+            text-align: center;
+            background-color: black;
+            border-style: solid;
+            border-color: black;
+            border-top-width: 10px;
+            border-left-width: 10px;
+            border-bottom-width: 10px;
+        }
+        
+        #progress {
+            position: absolute;
+            top: 95%;
+            width: 100%;
+            height: 5%;
+            background-color: #222222;
+            border-style: outset;
+            border-width: 5px;
+            border-top-width: 10px;
+            border-color: black;
+        }
+        
+        #right {
+            position: absolute;
+            top: 7%;
+            width: 28%;
+            height: 90%;
+            left: 72%;
+        }
+        
+        #right1 {
+            position: relative;
+            width: 100%;
+            height: 30%;
+            text-align: center;
+            background-color: #222222;
+            border-style: solid;
+            border-width: 10px;
+            border-color: black;
+            overflow: auto;
+        }
+        
+        #right2 {
+            position: relative;
+            width: 100%;
+            height: 70%;
+            bottom: 5%;
+            text-align: center;
+            background-color: #222222;
+            border-style: solid;
+            border-width: 10px;
+            border-color: black;
+            overflow: auto;
+        }

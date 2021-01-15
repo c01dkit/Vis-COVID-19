@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>世界疫情人数一览</title>
+    <!-- 引入 echarts系列文件 -->
+    <script src="./node_modules/echarts/dist/echarts.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./geo/world.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./geo/china.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 引入css文件 定义DOM表现形式 -->
+    <link rel="stylesheet" href="./vis2020.css">
+
+    <style>
+        p.title {
+            font-family: "Arial";
+            font-size: 30px;
+            letter-spacing: 4px;
+            color: #d6d6d6;
+            line-height: 0px;
+        }
+        
+        p.left1_1 {
+            font-family: "Arial";
+            font-size: 20px;
+            color: white;
+        }
+        
+        p.left1_2 {
+            font-family: "Arial";
+            font-size: 40px;
+            color: #f02512;
+            line-height: 0pt;
+            font-weight: bold;
+        }
+        
+        p.left2_1 {
+            font-family: "Arial";
+            font-size: 15px;
+            color: #d6d6d6
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id=title>
+        <p class="title">COVID-19 Dashboard by the 2097 at Zhejiang University(ZJU)</p>
+
+    </div>
+    <div id=left>
+        <div id="left1">
+            <p class="left1_1">Global Cases</p>
+            <!-- 需改为统计数据 -->
+            <p class="left1_2">1,571,901</p>
+        </div>
+        <div id="left2" style="color:#FFF">左侧下方面板</div>
+    </div>
+    <div id="center">
+        <div id="map" style="color:#FFF">中间地图信息</div>
+    </div>
+    <div id="right">
+        <div id="right1" style="color:#FFF">右侧1号面板</div>
+        <div id="right2" style="color:#FFF">右侧2号面板</div>
+    </div>
+    <div id="progress" style="color:#FFF">进度条</div>
+    <script src="./worldmap.js"></script>
+</body>
+
+</html>

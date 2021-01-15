@@ -1,8 +1,8 @@
 var map = echarts.init(document.getElementById('map'));//初始化			
 var COLORS = ["#ffffff", "#faebd2", "#e9a188", "#d56355", "#bb3937", "#772526", "#480f10"];//图例里的颜色
 var dataList=[//数据
-			    {name:"China",value:100},
-			    {name:"United States",value:1000},
+			    {name:"中国",value:100},
+			    {name:"United Stats",value:1000},
 			]
 			
 	var option={//配置项（名称）

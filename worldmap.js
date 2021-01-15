@@ -17,6 +17,7 @@ var option = { //配置项（名称）
                 return params.seriesName + '<br />' + params.name + '：' + params.value
             } //数据格式化
     },
+
     backgroundColor: '#030f19', //背景色
     visualMap: { //visualMap 是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
         type: 'piecewise', //分段型视觉映射组件
@@ -24,10 +25,10 @@ var option = { //配置项（名称）
 
         left: 'left', //位置
         top: 'bottom', //位置
-
+        textStyle: {
+            color: '#d6d6d6'
+        },
         pieces: [
-
-
             { value: 0, color: COLORS[0] },
             { min: 1, max: 9, color: COLORS[1] },
             { min: 10, max: 99, color: COLORS[2] },

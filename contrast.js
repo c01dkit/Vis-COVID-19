@@ -3,7 +3,7 @@ var xAxisTime = []; //时间轴
 var china_data = []; //中国累计确诊
 var us_data = []; //美国累计确诊
 
-// 加入数据后删除次循环
+// 加入数据后删除此循环
 for (var i = 0; i < 100; i++) {
     xAxisTime.push('Date' + i);
     china_data.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
@@ -15,7 +15,7 @@ var right3 = echarts.init(document.getElementById('right3')); //初始化
 option = {
     title: {
         text: 'China vs US for Cumulative Cases',
-        top: 205,
+        top: 220,
         left: 80,
         align: 'left',
         textStyle: {

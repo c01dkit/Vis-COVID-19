@@ -1,3 +1,15 @@
+var country = ["美国", "中国", "法国", "日本", "韩国", "俄罗斯", "冰岛", "西班牙"];
+var data = [223, 312, 178, 398, 280, 112, 332, 99];
+var data_x = [];
+var data_y = [];
+var i = 0;
+while (country[i] && data[i]) {
+    data_x.push(data[i]);
+    data_y.push(country[i] + ' ' + data[i]);
+    i++;
+}
+
+
 var data = [
     ["国家", "累计确诊"],
     ["美国", 223],
@@ -9,13 +21,17 @@ var data = [
     ["冰岛", 332],
     ["西班牙", 99],
 ]
+
+
 var left2 = echarts.init(document.getElementById('left2'));
 
 var option = {
     "color": '#f02512',
+
     "dataset": {
         "source": data,
     },
+
     "grid": {
         "width": '85%',
         "left": '8%',
@@ -26,16 +42,18 @@ var option = {
     },
 
     "xAxis": [{
+        "data": data_x,
         "show": true,
         "type": 'value',
         "name": 'Count',
         "position": 'bottom',
-        "filterMode": "filter",
+        "filterMode": "none",
 
     }],
     "yAxis": [{
+        "data": data_y,
         "type": "category",
-        "name": "Country",
+        //"name": "Country",
         //是否反向坐标轴    
         "inverse": true,
         "axisLabel": {
@@ -45,7 +63,7 @@ var option = {
             "align": 'left',
             "padding": [-80, 0, 0, 10]
         },
-        max: 20,
+
         "show": true,
         "splitLine": {
             "show": false,
@@ -89,12 +107,13 @@ var option = {
 
     },
 
-    // bar
+    // bar & item
     "series": [{
         "type": "bar",
-        "name": "累计确诊",
+        "name": "Cases by Country",
+        "data": data_x,
         "itemStyle": {
-            "barBorderRadius": 10
+            "barBorderRadius": 8
         },
         "barGap": "50%",
         barCateGoryGap: 20,
@@ -107,8 +126,14 @@ var option = {
             "show": true,
 
         },
-        "barMaxWidth": 22.22222222222222,
-        "barWidth": 22.22222222222222,
+        /*
+        formatter: function(params) {
+            str = params.data
+            return str
+        }, 
+        //https://blog.csdn.net/u010976347/article/details/81390107
+        */
+        "barWidth": 20,
         "animation": true
     }],
     "title": {
@@ -126,7 +151,7 @@ var option = {
         // bottom: '15%',
         width: 10,
         start: 0,
-        end: 20,
+        end: 50,
         handleSize: '0', // 滑动条的 左右2个滑动小块的大小
         handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
         textStyle: {

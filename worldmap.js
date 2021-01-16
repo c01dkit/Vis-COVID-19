@@ -123,31 +123,31 @@ function refreshDataList(dateName,selector){
 		dataList.splice(0,dataList.length);
 		if (selector==="new_diagnosed"){ // 加载新增确诊病例数据
 			for (item of finalSets){
-				dataList.push({name:item.region,value:item.new_diagnosed})
+				dataList.push({name:item.region,value:item.new_diagnosed});
 			}
 		} else if (selector==="total_diagnosed"){ // 加载累计确诊病例数据
 			for (item of finalSets){
-				dataList.push({name:item.region,value:item.total_diagnosed})
+				dataList.push({name:item.region,value:item.total_diagnosed});
 			}
 		} else if (selector==="total_death"){ // 加载累计死亡病例数据
 			for (item of finalSets){
-				dataList.push({name:item.region,value:item.total_death})
+				dataList.push({name:item.region,value:item.total_death});
 			}
 		} else if (selector==="new_death"){ // 加载新增死亡病例数据
 			for (item of finalSets){
-				dataList.push({name:item.region,value:item.new_death})
+				dataList.push({name:item.region,value:item.new_death});
 			}
 		} else if (selector==="total_healed"){ // 加载累计治愈数据
 			for (item of finalSets){
-				dataList.push({name:item.region,value:item.total_healed})
+				dataList.push({name:item.region,value:item.total_healed});
 			}
 		} else if (selector==="still_healing"){ // 加载仍处于治疗阶段数据
 			for (item of finalSets){
-				dataList.push({name:item.region,value:item.still_healing})
+				dataList.push({name:item.region,value:item.still_healing});
 			}
 		} else if (selector==="seriously_ill") { // 加载病危数据
 			for (item of finalSets) {
-				dataList.push({name: item.region, value: item.seriously_ill})
+				dataList.push({name: item.region, value: item.seriously_ill});
 			}
 		}
 		drawMap()

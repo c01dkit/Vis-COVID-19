@@ -110,7 +110,10 @@ var option = {
 
         "type": "bar",
         "name": "Cases by Country",
-        "data": data_x,
+        // "data": data_x,
+        "data": data_x.sort(function(a, b) {
+            return b - a;
+        }),
         "itemStyle": {
             "barBorderRadius": 8
         },

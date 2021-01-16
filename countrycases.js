@@ -11,17 +11,15 @@ while (country[i] && data[i]) {
 
 
 var data = [
-    ["国家", "累计确诊"],
-    ["美国", 223],
-    ["中国", 312],
-    ["法国", 178],
-    ["日本", 398],
-    ["韩国", 280],
-    ["俄罗斯", 112],
-    ["冰岛", 332],
-    ["西班牙", 99],
+    { country: '美国', data: 223 },
+    { country: '中国', data: 312 },
+    { country: '法国', data: 178 },
+    { country: '日本', data: 398 },
+    { country: '韩国', data: 280 },
+    { country: '俄罗斯', data: 112 },
+    { country: '冰岛', data: 332 },
+    { country: '西班牙', data: 99 },
 ]
-
 
 var left2 = echarts.init(document.getElementById('left2'));
 
@@ -43,7 +41,7 @@ var option = {
 
     "xAxis": [{
         "data": data_x,
-        "show": true,
+        "show": false,
         "type": 'value',
         "name": 'Count',
         "position": 'bottom',
@@ -109,12 +107,14 @@ var option = {
 
     // bar & item
     "series": [{
+
         "type": "bar",
         "name": "Cases by Country",
         "data": data_x,
         "itemStyle": {
             "barBorderRadius": 8
         },
+
         "barGap": "50%",
         barCateGoryGap: 20,
         // "stack": "total",
@@ -126,13 +126,15 @@ var option = {
             "show": true,
 
         },
+
         /*
         formatter: function(params) {
-            str = params.data
+            str = params.data.data + params.country
             return str
-        }, 
-        //https://blog.csdn.net/u010976347/article/details/81390107
+        },
         */
+        //https://blog.csdn.net/u010976347/article/details/81390107
+
         "barWidth": 20,
         "animation": true
     }],

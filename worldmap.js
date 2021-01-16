@@ -1,16 +1,10 @@
 const oneDay = 24 * 3600 * 1000;
 const base = +new Date(2020, 2, 1);
-var fileName = "./data/2020-6-22.json"
+var fileName = "./data/2020-2-1.json"
 var dataList = [ //数据
-	{ name: "中国", value: 100 },
-	{ name: "美国", value: 100000 },
-	{ name: "巴西", value: 1 },
-	{ name: "法国", value: 10 },
-	{ name: "印度", value: 10000 },
-	{ name: "格兰陵岛", value: 10 },
-	{ name: "俄罗斯", value: 500 },
+
 ]
-drawMap();
+
 function drawMap() {
 	var map = echarts.init(document.getElementById('map'));//初始化
 	// var COLORS = ["#ffffff", "#faebd2", "#e9a188", "#d56355", "#bb3937", "#772526", "#480f10"];//图例里的颜色
@@ -93,9 +87,11 @@ function drawMap() {
 
 
 $(document).ready(function (){
-	$("#title").click(function (){
-		refreshDataListByDateForTotalDiagonsed("2020-2-1")
-	})
+	$("#selector").change(function (){
+		selectorChange()
+	});
+	refreshDataListByDateForTotalDiagonsed("2020-2-1");
+	setInterval(drawMap,200)
 })
 
 function progressBarChange() {
@@ -103,7 +99,6 @@ function progressBarChange() {
 	const now = new Date(base + oneDay * dateDisp);
 	const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
 	refreshDataListByDateForTotalDiagonsed(name)
-	console.log(name+"hio")
 }
 
 function refreshDataListByDateForTotalDiagonsed(param){

@@ -18,10 +18,29 @@
     <link rel="stylesheet" href="./vis2020.css">
 </head>
 
+
 <body>
     <div id=divisor_x_top1></div>
+    <div id="title_left">
+        <p class="left1_1">Logo</p>
+    </div>
     <div id=title>
         <p class="title">COVID-19 Dashboard by the 2097 at Zhejiang University(ZJU)</p>
+    </div>
+    <div id="title_right">
+        <form>
+            <label>
+                <select name="options" id="selector" class="select_style">
+                <option value="new_diagnosed">new cases</option>
+                <option value="total_diagnosed" selected="selected">cumulative cases</option>
+                <option value="seriously_ill">serious cases</option>
+                <option value="total_death">cumulative deaths</option>
+                <option value="new_death">new deaths</option>
+                <option value="total_healed">cumulative recovered</option>
+                <option value="still_healing">under treatment</option>
+                </select>
+            </label>
+        </form>
     </div>
     <div id=divisor_x_top2></div>
     <div id=left>
@@ -47,12 +66,19 @@
     </div>
 
     <div id=divisor_x_bottom2></div>
-    <input id="progress" style="color:#FFF" type="range" value="72" min="0" max="144" onchange="progressBarChange()"/>
+
+    <input id="progress" style="color:#FFF" type="range" value="0" min="0" max="144" onchange="progressBarChange()" list="datelist" />
+
+    <datalist id="datelist" display: true>
+        <option value="0" style="color:#FFF" label="2/1"></option>
+        <option value="144" style="color:#FFF" label="6/29"></option>
+    </datalist>
+
     <div id=divisor_x_bottom1></div>
-    <script src="./worldmap.js"></script>
-    <script src="./countrycases.js"></script>
-    <script src="./contrast.js"></script>
-<!--    <script src="./datebar.js"></script>-->
+    <script src="./worldmap.js "></script>
+    <script src="./countrycases.js "></script>
+    <script src="./contrast.js "></script>
+    <!--    <script src="./datebar.js "></script>-->
 </body>
 
 </html>

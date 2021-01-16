@@ -8,8 +8,8 @@ while (country[i] && data[i]) {
     data_y.push(country[i] + ' ' + data[i]);
     i++;
 }
-
-
+var countryCasesTitle = "----";
+// export {countryCasesTitle};
 var data = [
     { country: '美国', data: 223 },
     { country: '中国', data: 312 },
@@ -109,7 +109,7 @@ var option = {
     "series": [{
 
         "type": "bar",
-        "name": "Cases by Country",
+        "name": countryCasesTitle,
         // "data": data_x,
         "data": data_x.sort(function(a, b) {
             return b - a;
@@ -118,10 +118,10 @@ var option = {
             "barBorderRadius": 8
         },
 
-        "barGap": "50%",
+        barGap: "50%",
         barCateGoryGap: 20,
         // "stack": "total",
-        "label": {
+        label: {
             "color": "#fff",
             "fontSize": 14,
             //"position": [0, '-20'],

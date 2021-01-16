@@ -1,28 +1,15 @@
-// 全局变量
-// worldmap
-const oneDay = 24 * 3600 * 1000;
+// 全局变量与状态保存
+const oneDay = 24 * 3600 * 1000; // 24h毫秒数 用于计算日期偏移
 const base = +new Date(2020, 2, 1);
-var fileName = "./data/2020-2-1.json"
-var previousProgressBarValue = null
-var previousSelector = null
-var globalData = null
-var dataList = [ //数据
+var fileName = "./data/2020-2-1.json" // 预加载文件
+var previousProgressBarValue = null // 置空进度条数值
+var previousSelector = null // 置空下拉列表值
 
-]
+// 左上全球数据
+var globalData = null // 置空左上全球数据
 
-// drawContrast
-// 数据
-var xAxisTime = []; //时间轴
-var china_data = []; //中国累计确诊
-var us_data = []; //美国累计确诊
-// 加入数据后删除此循环
-for (var i = 0; i < 100; i++) {
-    xAxisTime.push('Date' + i);
-    china_data.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
-    us_data.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
-}
-
-// countrycases
+// 左下国家对比图
+var countryCasesType = "----"
 var country = ["美国", "中国", "法国", "日本", "韩国", "俄罗斯", "冰岛", "西班牙"];
 var data = [223, 312, 178, 398, 280, 112, 332, 99];
 var data_x = [];
@@ -32,6 +19,20 @@ while (country[i] && data[i]) {
     data_x.push(data[i]);
     data_y.push(country[i] + ' ' + data[i]);
     i++;
+}
+
+// 中部地图数据
+var dataList = [] // 置空中间地图数据
+
+// 右下中美对比
+var xAxisTime = []; //时间轴
+var china_data = []; //中国累计确诊
+var us_data = []; //美国累计确诊
+// 加入数据后删除此循环
+for (var i = 0; i < 100; i++) {
+    xAxisTime.push('Date' + i);
+    china_data.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
+    us_data.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
 }
 
 var data = [
@@ -166,34 +167,6 @@ function checkIfUpdated() {
     }
 }
 
-function updateLeftPanel(param) {
-    if (previousSelector === "new_diagnosed") {
-        $("#globaldata").text(globalData.new_diagnosed)
-        $("#gloabaltype").text(param + " 全球新增确诊")
-    } else if (previousSelector === "total_diagnosed") { // 加载累计确诊病例数据
-        $("#globaldata").text(globalData.total_diagnosed)
-        $("#gloabaltype").text(param + " 全球累计确诊")
-    } else if (previousSelector === "total_death") { // 加载累计死亡病例数据
-        $("#globaldata").text(globalData.total_death)
-        $("#gloabaltype").text(param + " 全球累计死亡")
-    } else if (previousSelector === "new_death") { // 加载新增死亡病例数据
-        $("#globaldata").text(globalData.new_death)
-        $("#gloabaltype").text(param + " 全球新增死亡")
-    } else if (previousSelector === "total_healed") { // 加载累计治愈数据
-        $("#globaldata").text(globalData.total_healed)
-        $("#gloabaltype").text(param + " 全球累计治愈")
-    } else if (previousSelector === "still_healing") { // 加载仍处于治疗阶段数据
-        $("#globaldata").text(globalData.still_healing)
-        $("#gloabaltype").text(param + " 全球仍在治疗")
-    } else if (previousSelector === "seriously_ill") { // 加载病危数据
-        $("#globaldata").text(globalData.seriously_ill)
-        $("#gloabaltype").text(param + " 全球重症病例")
-    }
-
-}
-
-
-
 function refreshAll(dateName, selector) {
     if (dateName !== null) {
         fileName = "./data/" + dateName + ".json";
@@ -232,127 +205,288 @@ function refreshAll(dateName, selector) {
                 dataList.push({ name: item.region, value: item.seriously_ill });
             }
         }
-        drawMap()
-        drawContrast()
-        drawRadar()
-        drawCountryCases()
-        updateLeftPanel(dateName)
+        updateTextBySelector(dateName)
+        drawMiddleMap()
+        drawRightBottomContrast()
+        drawRightTopRadar()
+        drawLeftBottomCountryCases()
     });
 }
 
+// 根据下拉框重绘所有文字部分
+function updateTextBySelector(param) {
 
-function drawContrast() {
+    if (previousSelector === "new_diagnosed") {
+        $("#globaldata").text(globalData.new_diagnosed)
+        $("#gloabaltype").text(param + " 全球新增确诊")
+        countryCasesType = "新增确诊"
+    } else if (previousSelector === "total_diagnosed") { // 加载累计确诊病例数据
+        $("#globaldata").text(globalData.total_diagnosed)
+        $("#gloabaltype").text(param + " 全球累计确诊")
+        countryCasesType = "累计确诊"
+    } else if (previousSelector === "total_death") { // 加载累计死亡病例数据
+        $("#globaldata").text(globalData.total_death)
+        $("#gloabaltype").text(param + " 全球累计死亡")
+        countryCasesType = "累计死亡"
+    } else if (previousSelector === "new_death") { // 加载新增死亡病例数据
+        $("#globaldata").text(globalData.new_death)
+        $("#gloabaltype").text(param + " 全球新增死亡")
+        countryCasesType = "新增死亡"
+    } else if (previousSelector === "total_healed") { // 加载累计治愈数据
+        $("#globaldata").text(globalData.total_healed)
+        $("#gloabaltype").text(param + " 全球累计治愈")
+        countryCasesType = "累计治愈"
+    } else if (previousSelector === "still_healing") { // 加载仍处于治疗阶段数据
+        $("#globaldata").text(globalData.still_healing)
+        $("#gloabaltype").text(param + " 全球仍在治疗")
+        countryCasesType = "仍在治疗"
+    } else if (previousSelector === "seriously_ill") { // 加载病危数据
+        $("#globaldata").text(globalData.seriously_ill)
+        $("#gloabaltype").text(param + " 全球重症病例")
+        countryCasesType = "重症病例"
+    }
 
-    var right3 = echarts.init(document.getElementById('right3')); //初始化
+}
 
-    option = {
-        title: {
-            text: 'China vs US for Cumulative Cases',
-            top: 220,
-            left: 80,
-            align: 'left',
-            textStyle: {
-                color: '#d6d6d6',
-                fontSize: 15
-            },
+// 重绘左下国家对比图
+function drawLeftBottomCountryCases() {
+    var left2 = echarts.init(document.getElementById('left2'));
+    var option = {
+        color: '#f02512',
+
+        dataset: {
+            source: data,
         },
-        legend: {
-            data: ['CHINA', 'US'],
+
+        grid: {
+            width: '85%',
+            left: '8%',
+            right: 40,
+            bottom: 30,
+            top: "10%",
+            // "containLabel": true
+        },
+
+        xAxis: [{
+            data: data_x,
+            show: false,
+            type: 'value',
+            name: 'Count',
+            position: 'bottom',
+            filterMode: "none",
+
+        }],
+        yAxis: [{
+            data: data_y,
+            type: "category",
+            //"name": "Country",
+            //是否反向坐标轴
+            inverse: true,
+            axisLabel: {
+                color: "#fff",
+                fontSize: 14,
+                fontWeight: "normal",
+                align: 'left',
+                padding: [-80, 0, 0, 10]
+            },
+
             show: true,
-            top: 15,
-            align: 'left',
-            textStyle: {
-                color: '#9e9e9e',
-                fontSize: 12
+            splitLine: {
+                show: false,
             },
-        },
-
+            axisTick: {
+                show: false,
+            },
+            axisLine: {
+                show: false
+            }
+        }],
         toolbox: {
             feature: {
                 magicType: {
-                    type: ['stack', 'tiled']
+                    type: ['tiled']
                 },
-                dataView: {},
+                dataView: {
+                    //backgroundColor: '#222222'
+                },
                 saveAsImage: {
                     pixelRatio: 2
                 }
             }
         },
-        tooltip: {},
-        xAxis: {
-            data: xAxisTime,
-            splitLine: {
-                show: false
-            },
-            axisLabel: {
-                color: "#9e9e9e",
-                align: 'bottom'
-            }
+        tooltip: {
+            show: false,
+            // "trigger": "axis",
+            // "axisPointer": {
+            //     "type": "shadow"
+            // },
         },
-        yAxis: {
-            splitLine: {
-                show: true,
-                lineStyle: {
-                    type: 'dotted' //'solid', 'dashed', 'dotted
-                },
-                color: ['#222222', '#9e9e9e']
+        legend: {
+            show: true,
+            type: "scroll",
+            top: 15,
+            left: "center",
+            textStyle: {
+                color: '#d6d6d6',
+                fontSize: 14
             },
-            axisLabel: {
-                color: "#9e9e9e"
-            }
+
         },
-        dataZoom: [{
-            type: 'inside',
-            start: 0,
-            end: 100
-        }, {
-            start: 0,
-            end: 10,
-            // handleIcon: url(".pics/china_logo.png"),
-            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-            handleSize: '80%',
-            handleStyle: {
-                color: '#fff',
-                shadowBlur: 3,
-                shadowColor: 'rgba(0, 0, 0, 0.2)',
-                shadowOffsetX: 2,
-                shadowOffsetY: 2
-            },
-            fillerColor: 'rgba(0, 0, 0, 0.1)', // 拖动条的颜色
-            borderColor: "none",
-            //backgroundColor: 'rgba(120, 120, 120, 1)',
-            //showDetail: false
-        }],
+
+        // bar & item
         series: [{
-            name: 'CHINA',
-            type: 'bar',
-            color: 'red',
 
-            data: china_data,
-            animationDelay: function(idx) {
-                return idx * 10;
-            }
-        }, {
-            name: 'US',
-            type: 'bar',
-            color: '#1d3c95',
-            data: us_data,
-            animationDelay: function(idx) {
-                return idx * 10 + 100;
-            }
+            type: "bar",
+            name: countryCasesType,
+            // "data": data_x,
+            data: data_x.sort(function(a, b) {
+                return b - a;
+            }),
+            itemStyle: {
+                "barBorderRadius": 8
+            },
+
+            barGap: "50%",
+            barCateGoryGap: 20,
+            // "stack": "total",
+            label: {
+                color: "#fff",
+                fontSize: 14,
+                //"position": [0, '-20'],
+                fontWeight: "normal",
+                show: true,
+
+            },
+
+            /*
+            formatter: function(params) {
+                str = params.data.data + params.country
+                return str
+            },
+            */
+            //https://blog.csdn.net/u010976347/article/details/81390107
+
+            barWidth: 20,
+            animation: true
         }],
-        animationEasing: 'elasticOut',
-        animationDelayUpdate: function(idx) {
-            return idx * 5;
-        }
-    };
+        title: {
+            show: false,
+        },
+        // 滚动条
 
-    right3.setOption(option);
+        dataZoom: [{
+            type: 'slider',
+            show: true,
+            filterMode: "empty",
+            disabled: false,
+            yAxisIndex: 0,
+            // top: '25%',
+            right: '0%',
+            // bottom: '15%',
+            width: 10,
+            start: 0,
+            end: 50,
+            handleSize: '0', // 滑动条的 左右2个滑动小块的大小
 
+            handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+            textStyle: {
+                color: "#fff"
+            },
+            throttle: 100, //设置触发视图刷新的频率。单位为毫秒（ms）
+            zoomLock: false, //是否锁定选择区域（或叫做数据窗口）的大小。如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
+            fillerColor: '#787878', // 拖动条的颜色
+            borderColor: "none",
+            backgroundColor: 'rgba(120, 120, 120, 0.3)',
+            moveOnMouseMove: true,
+            zoomOnMouseWheel: true,
+            showDetail: false // 即拖拽时候是否显示详细数值信息 默认true
+        }, ],
+    }
+    left2.setOption(option);
 }
 
+// 重绘中部地图
+function drawMiddleMap() {
+    var map = echarts.init(document.getElementById('map')); //初始化
+    var COLORS = ["#eeeeee", "#faebd2", "#FFDEAD", "#FF7F50", "#FF4500", "#FF0000", "#CD0000"]; //图例里的颜色
+    var option = { //配置项（名称）
 
-function drawRadar() {
+        tooltip: { //提示框组件
+            formatter: function(params, ticket, callback) { //提示框浮层内容格式器，支持字符串模板和回调函数两种形式。
+                    return params.seriesName + '<br />' + params.name + '：' + params.value
+                } //数据格式化
+        },
+
+        backgroundColor: '#030f19', //背景色
+        visualMap: { //visualMap 是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+            type: 'piecewise', //分段型视觉映射组件
+            orient: 'horizontal', //方向
+
+            left: 'left', //位置
+            top: 'bottom', //位置
+            textStyle: {
+                color: '#d6d6d6'
+            },
+            pieces: [
+                { value: 0, color: COLORS[0] },
+                { min: 1, max: 9, color: COLORS[1] },
+                { min: 10, max: 99, color: COLORS[2] },
+                { min: 100, max: 499, color: COLORS[3] },
+                { min: 500, max: 999, color: COLORS[4] },
+                { min: 1000, max: 10000, color: COLORS[5] },
+                { min: 10000, color: COLORS[6] }
+            ],
+            inRange: {
+                color: COLORS //取值范围的颜色
+            },
+
+            show: true //图注
+        },
+        geo: { //地理坐标系组件用于地图的绘制
+            map: 'world',
+            roam: true, //开启缩放与平移
+            zoom: 1.23, //视角缩放比例
+            scaleLimit: {
+                min: 1.2,
+                max: 7,
+            },
+            label: {
+                normal: {
+                    show: false, //默认不显示文本
+                    fontSize: '10',
+                    color: 'rgba(0,0,0,0.7)'
+                }
+
+            },
+            itemStyle: {
+                normal: {
+                    borderColor: 'rgba(0, 0, 0, 0.2)',
+                    areaColor: '#eeeeee'
+                },
+                emphasis: {
+                    areaColor: '#F3B329', //鼠标选择区域颜色
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    shadowBlur: 20,
+                    borderWidth: 0,
+                    shadowColor: '#eeeeee'
+                }
+            }
+        },
+        series: [ //系列列表。（图表）
+            {
+                name: '疫情人数',
+                type: 'map', //图表类型
+                geoIndex: 0,
+                data: dataList //图表的数据
+            }
+        ]
+    }
+    map.setOption(option); //用配置项配置（动词）echarts
+}
+
+// 重绘右上雷达图
+function drawRightTopRadar() {
     var radar = echarts.init(document.getElementById('right12')); //初始化
 
     // Schema:
@@ -575,67 +709,39 @@ function drawRadar() {
     radar.setOption(option);
 }
 
-function drawCountryCases() {
-    var left2 = echarts.init(document.getElementById('left2'));
+// 重绘右下中美对比图
+function drawRightBottomContrast() {
 
-    var option = {
-        "color": '#f02512',
+    var right3 = echarts.init(document.getElementById('right3')); //初始化
 
-        "dataset": {
-            "source": data,
+    option = {
+        title: {
+            text: 'China vs US for Cumulative Cases',
+            top: 220,
+            left: 80,
+            align: 'left',
+            textStyle: {
+                color: '#d6d6d6',
+                fontSize: 15
+            },
+        },
+        legend: {
+            data: ['CHINA', 'US'],
+            show: true,
+            top: 15,
+            align: 'left',
+            textStyle: {
+                color: '#9e9e9e',
+                fontSize: 12
+            },
         },
 
-        "grid": {
-            "width": '85%',
-            "left": '8%',
-            "right": 40,
-            "bottom": 30,
-            "top": "10%",
-            // "containLabel": true
-        },
-
-        "xAxis": [{
-            "data": data_x,
-            "show": false,
-            "type": 'value',
-            "name": 'Count',
-            "position": 'bottom',
-            "filterMode": "none",
-
-        }],
-        "yAxis": [{
-            "data": data_y,
-            "type": "category",
-            //"name": "Country",
-            //是否反向坐标轴    
-            "inverse": true,
-            "axisLabel": {
-                "color": "#fff",
-                "fontSize": 14,
-                "fontWeight": "normal",
-                "align": 'left',
-                "padding": [-80, 0, 0, 10]
-            },
-
-            "show": true,
-            "splitLine": {
-                "show": false,
-            },
-            "axisTick": {
-                "show": false,
-            },
-            "axisLine": {
-                "show": false
-            }
-        }],
-        "toolbox": {
+        toolbox: {
             feature: {
                 magicType: {
-                    type: ['tiled']
+                    type: ['stack', 'tiled']
                 },
-                dataView: {
-                    //backgroundColor: '#222222'
-                },
+                dataView: {},
                 saveAsImage: {
                     pixelRatio: 2
                 },
@@ -650,95 +756,92 @@ function drawCountryCases() {
                 }
             }
         },
-        "tooltip": {
-            "show": false,
-            // "trigger": "axis",
-            // "axisPointer": {
-            //     "type": "shadow"
-            // },
+        tooltip: {},
+        xAxis: {
+            data: xAxisTime,
+            splitLine: {
+                show: false
+            },
+            axisLabel: {
+                color: "#9e9e9e",
+                align: 'bottom'
+            }
         },
-        "legend": {
-            "show": true,
-            "type": "scroll",
-            "top": 15,
-            "left": "center",
-            "textStyle": {
-                "color": '#d6d6d6',
-                fontSize: 14
+        yAxis: {
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    type: 'dotted' //'solid', 'dashed', 'dotted
+                },
+                color: ['#222222', '#9e9e9e']
             },
-
+            axisLabel: {
+                color: "#9e9e9e"
+            }
         },
-
-        // bar & item
-        "series": [{
-
-            "type": "bar",
-            "name": "Cases by Country",
-            // "data": data_x,
-            "data": data_x.sort(function(a, b) {
-                return b - a;
-            }),
-            "itemStyle": {
-                "barBorderRadius": 8
-            },
-
-            "barGap": "50%",
-            barCateGoryGap: 20,
-            // "stack": "total",
-            "label": {
-                "color": "#fff",
-                "fontSize": 14,
-                //"position": [0, '-20'],
-                "fontWeight": "normal",
-                "show": true,
-
-            },
-
-            /*
-            formatter: function(params) {
-                str = params.data.data + params.country
-                return str
-            },
-            */
-            //https://blog.csdn.net/u010976347/article/details/81390107
-
-            "barWidth": 20,
-            "animation": true
-        }],
-        "title": {
-            "show": false,
-        },
-        // 滚动条
-
-        "dataZoom": [{
-            type: 'slider',
-            show: true,
-            "filterMode": "empty",
-            "disabled": false,
-            yAxisIndex: 0,
-            // top: '25%',
-            right: '0%',
-            // bottom: '15%',
-            width: 10,
+        dataZoom: [{
+            type: 'inside',
             start: 0,
-            end: 50,
-            handleSize: '0', // 滑动条的 左右2个滑动小块的大小
-
-            handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
-            textStyle: {
-                color: "#fff"
+            end: 100
+        }, {
+            start: 0,
+            end: 10,
+            // handleIcon: url(".pics/china_logo.png"),
+            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '80%',
+            handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.2)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
             },
-            throttle: 100, //设置触发视图刷新的频率。单位为毫秒（ms）
-            zoomLock: false, //是否锁定选择区域（或叫做数据窗口）的大小。如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
-            fillerColor: '#787878', // 拖动条的颜色
+            fillerColor: 'rgba(0, 0, 0, 0.1)', // 拖动条的颜色
             borderColor: "none",
-            backgroundColor: 'rgba(120, 120, 120, 0.3)',
-            moveOnMouseMove: true,
-            zoomOnMouseWheel: true,
-            showDetail: false // 即拖拽时候是否显示详细数值信息 默认true
-        }, ],
-    }
-    left2.setOption(option);
+            //backgroundColor: 'rgba(120, 120, 120, 1)',
+            //showDetail: false
+        }],
+        series: [{
+            name: 'CHINA',
+            type: 'bar',
+            color: 'red',
+
+            data: china_data,
+            animationDelay: function(idx) {
+                return idx * 10;
+            }
+        }, {
+            name: 'US',
+            type: 'bar',
+            color: '#1d3c95',
+            data: us_data,
+            animationDelay: function(idx) {
+                return idx * 10 + 100;
+            }
+        }],
+        animationEasing: 'elasticOut',
+        animationDelayUpdate: function(idx) {
+            return idx * 5;
+        }
+    };
+
+    right3.setOption(option);
+
+    handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+        textStyle: {
+            color: "#fff"
+        },
+        throttle: 100, //设置触发视图刷新的频率。单位为毫秒（ms）
+        zoomLock: false, //是否锁定选择区域（或叫做数据窗口）的大小。如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
+        fillerColor: '#787878', // 拖动条的颜色
+        borderColor: "none",
+        backgroundColor: 'rgba(120, 120, 120, 0.3)',
+        moveOnMouseMove: true,
+        zoomOnMouseWheel: true,
+        showDetail: false // 即拖拽时候是否显示详细数值信息 默认true
+}, ],
+}
+left2.setOption(option);
 }
 
 function drawCalendar() {

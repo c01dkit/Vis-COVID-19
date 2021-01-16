@@ -13,6 +13,7 @@
     <script src="./node_modules/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./geo/world.js" type="text/javascript" charset="utf-8"></script>
     <script src="./geo/china.js" type="text/javascript" charset="utf-8"></script>
+
     <!-- 引入css文件 定义DOM表现形式 -->
     <link rel="stylesheet" href="./vis2020.css">
 </head>
@@ -29,7 +30,11 @@
             <!-- 需改为统计数据 -->
             <p class="left1_2">1,571,901</p>
         </div>
-        <div id="left2" style="color:#FFF" onclick="drawMap();">左侧下方面板</div>
+
+        <div id="left2">
+            <p class="left2_1">Cases by country</p>
+        </div>
+
     </div>
     <div id="center">
         <div id="map" style="color:#FFF">中间地图信息</div>
@@ -45,6 +50,9 @@
     <div id="progress" style="color:#FFF">进度条</div>
     <div id=divisor_x_bottom1></div>
     <script src="./worldmap.js"></script>
+    <script src="./countrycases.js"></script>
+    <script src="./contrast.js"></script>
+    <script src="./datebar.js"></script>
 </body>
 
 </html>

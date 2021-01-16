@@ -112,7 +112,6 @@ function refreshDataListByDateForTotalDiagonsed(param){
 			dataList.push({name:item.region,value:item.total_diagnosed})
 		}
 	});
-	drawMap()
 }
 
 function selectorChange() {
@@ -158,7 +157,6 @@ function refreshDataList(dateName,selector){
 			}
 		}
 	});
-	drawMap()
 }
 
 

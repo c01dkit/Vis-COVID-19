@@ -230,3 +230,11 @@
             border-radius: 2px;
             color: #d6d6d6;
         }
+
+        .scroll-box{
+            overflow: hidden;
+        }
+
+        .scroll{
+            overflow-y: auto;
+        }

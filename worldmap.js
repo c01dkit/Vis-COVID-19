@@ -1,3 +1,6 @@
+const oneDay = 24 * 3600 * 1000;
+const base = +new Date(2020, 2, 1);
+var fileName = "./data/2020-6-22.json"
 var dataList = [ //数据
 	{ name: "中国", value: 100 },
 	{ name: "美国", value: 100000 },
@@ -91,23 +94,21 @@ function drawMap() {
 
 $(document).ready(function (){
 	$("#title").click(function (){
-		getDataListByDate("2020-2-1")
+		refreshDataListByDateForTotalDiagonsed("2020-2-1")
 	})
 })
 
-function progressBarChnge() {
-	const param = parseInt($("#progress").val())
-	var base = +new Date(2020, 2, 1);
-	var oneDay = 24 * 3600 * 1000;
-	var now = new Date(base + oneDay*param)
-	var name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-')
-	getDataListByDate(name)
-	console.log(name)
+function progressBarChange() {
+	const dateDisp = parseInt($("#progress").val())
+	const now = new Date(base + oneDay * dateDisp);
+	const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
+	refreshDataListByDateForTotalDiagonsed(name)
+	console.log(name+"hio")
 }
 
-function getDataListByDate(param){
-	const file = "./data/" + param + ".json";
-	$.get(file).fail(function (dataSet){
+function refreshDataListByDateForTotalDiagonsed(param){
+	fileName = "./data/" + param + ".json";
+	$.get(fileName).fail(function (dataSet){
 		let resultData = eval("(" + dataSet.responseText + ")");
 		// console.log(resultData);
 		let finalSets = resultData.inner_value;
@@ -118,3 +119,51 @@ function getDataListByDate(param){
 	});
 	drawMap()
 }
+
+function selectorChange() {
+	const selector = $("select  option:selected").val();
+	refreshDataList(null,selector);
+}
+
+function refreshDataList(dateName,selector){
+	if (dateName!==null){
+		fileName = "./data/" + dateName + ".json";
+	}
+	$.get(fileName).fail(function (dataSet){
+		let resultData = eval("(" + dataSet.responseText + ")");
+		let finalSets = resultData.inner_value;
+		dataList.splice(0,dataList.length);
+		if (selector==="new_diagnosed"){ // 加载新增确诊病例数据
+			for (item of finalSets){
+				dataList.push({name:item.region,value:item.new_diagnosed})
+			}
+		} else if (selector==="total_diagnosed"){ // 加载累计确诊病例数据
+			for (item of finalSets){
+				dataList.push({name:item.region,value:item.total_diagnosed})
+			}
+		} else if (selector==="total_death"){ // 加载累计死亡病例数据
+			for (item of finalSets){
+				dataList.push({name:item.region,value:item.total_death})
+			}
+		} else if (selector==="new_death"){ // 加载新增死亡病例数据
+			for (item of finalSets){
+				dataList.push({name:item.region,value:item.new_death})
+			}
+		} else if (selector==="total_healed"){ // 加载累计治愈数据
+			for (item of finalSets){
+				dataList.push({name:item.region,value:item.total_healed})
+			}
+		} else if (selector==="still_healing"){ // 加载仍处于治疗阶段数据
+			for (item of finalSets){
+				dataList.push({name:item.region,value:item.still_healing})
+			}
+		} else if (selector==="seriously_ill") { // 加载病危数据
+			for (item of finalSets) {
+				dataList.push({name: item.region, value: item.seriously_ill})
+			}
+		}
+	});
+	drawMap()
+}
+
+

@@ -49,6 +49,10 @@ function drawMap() {
 			map: 'world',
 			roam: true, //开启缩放与平移
 			zoom: 1.23, //视角缩放比例
+			scaleLimit:{
+				min:1.2,
+				max:7,
+			},
 			label: {
 				normal: {
 					show: false, //默认不显示文本
@@ -91,14 +95,23 @@ $(document).ready(function (){
 	})
 })
 
-
+function progressBarChnge() {
+	const param = parseInt($("#progress").val())
+	var base = +new Date(2020, 2, 1);
+	var oneDay = 24 * 3600 * 1000;
+	var now = new Date(base + oneDay*param)
+	var name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-')
+	getDataListByDate(name)
+	console.log(name)
+}
 
 function getDataListByDate(param){
-	const file = "./" + param + ".json";
+	const file = "./data/" + param + ".json";
 	$.get(file).fail(function (dataSet){
 		let resultData = eval("(" + dataSet.responseText + ")");
 		// console.log(resultData);
 		let finalSets = resultData.inner_value;
+		dataList.splice(0,dataList.length);
 		for (item of finalSets){
 			dataList.push({name:item.region,value:item.total_diagnosed})
 		}

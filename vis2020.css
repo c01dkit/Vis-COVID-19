@@ -11,21 +11,21 @@
             text-align: center;
             background-color: #222222;
             top: 1%;
-            left: 10%;
-            right: 10%;
+            left: 8%;
+            right: 12%;
             overflow: hidden;
             float: left;
         }
         
         #title_left {
             position: absolute;
-            width: 9%;
+            width: 7%;
             height: 7%;
             text-align: center;
             background-color: #222222;
             top: 1%;
             left: 1%;
-            right: 90%;
+            right: 92%;
             overflow: hidden;
             float: left;
         }
@@ -33,12 +33,12 @@
         
         #title_right {
             position: absolute;
-            width: 9%;
+            width: 11%;
             height: 7%;
             text-align: center;
             background-color: #222222;
             top: 1%;
-            left: 90%;
+            left: 88%;
             right: 1%;
             overflow: hidden;
             float: left;
@@ -216,25 +216,88 @@
             margin: 0;
             line-height: 30pt;
         }
+        /* for progress */
         
-        .select_style {
+        input[type="range"] {
+            border-radius: 5px;
+            position: relative;
+            -webkit-appearance: none !important;
+            outline: none;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 35px;
+            height: 35px;
+            margin-top: -13px;
+            /*使滑块超出轨道部分的偏移量相等*/
+            /*border-radius: 50%;*/
+            background: url("./pics/bingdu_logo.png");
+            background-size: cover;
+        }
+        
+        input[type=range]::-webkit-slider-runnable-track {
+            height: 10px;
+            border-radius: 5px;
+            /*将轨道设为圆角的*/
+            box-shadow: 0 1px 1px #383636, inset 0 .125em .125em #0d1112;
+            /*轨道内置阴影效果*/
+            /* background: linear-gradient(0deg, #000 20%, #f00 50%, #090 80%); */
+        }
+        
+        input[type=range]:focus {
+            outline: none;
+        }
+        /* fire fox 
+        input[type=range]::-moz-range-progress {
+            background: linear-gradient(to right, #059CFA, white 100%, white);
+            height: 13px;
+            border-radius: 10px;
+        }
+        refer: https://blog.csdn.net/weixin_38930535/article/details/79542130
+        */
+        /* for selection */
+        
+        select {
+            border: none;
+            outline: none;
+            margin-top: 18px;
+            margin-right: 5px;
+            line-height: 0.40rem;
+            padding-left: 0.1rem;
+            background: none;
+            color: #ffffff;
+            font-style: normal;
+            font-weight: bold;
+            /* background: url("./pics/select_logo.png") no-repeat right #222222; */
+            /* background-size: 10; */
+        }
+        
+        option {
+            border: none;
+            outline: none;
+            background-color: #000000;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        /* .select_style {
             margin-top: 12px;
             margin-right: 5px;
-            background: #222222;
+            /* background: #222222
+            background: url("./pics/select_logo.png") no-repeat right #ddd;
             height: 28px;
             width: 180px;
             line-height: 28px;
+            border: none;
+            outline: none;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
             border: 1px solid #000000;
             -moz-border-radius: 2px;
             -webkit-border-radius: 2px;
             border-radius: 2px;
-            color: #d6d6d6;
-        }
 
-        .scroll-box{
-            overflow: hidden;
-        }
+            color: #000000;
+        } */
 
-        .scroll{
-            overflow-y: auto;
-        }

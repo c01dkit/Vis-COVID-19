@@ -16,6 +16,11 @@
 
     <!-- 引入css文件 定义DOM表现形式 -->
     <link rel="stylesheet" href="./vis2020.css">
+
+    <!-- CSS only -->
+    <!-- link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"-->
+    <!-- JavaScript Bundle with Popper -->
+    <!--script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script-->
 </head>
 
 
@@ -30,18 +35,19 @@
     <div id="title_right">
         <form>
             <label>
-                <select name="options" id="selector" class="select_style">
-                <option value="new_diagnosed">new cases</option>
-                <option value="total_diagnosed" selected="selected">cumulative cases</option>
-                <option value="seriously_ill">serious cases</option>
-                <option value="total_death">cumulative deaths</option>
-                <option value="new_death">new deaths</option>
-                <option value="total_healed">cumulative recovered</option>
-                <option value="still_healing">under treatment</option>
+                <select name="options" id="selector">
+                <option value="new_diagnosed">new cases </option>
+                <option value="total_diagnosed" selected="selected">cumulative cases </option>
+                <option value="seriously_ill">serious cases </option>
+                <option value="total_death">cumulative deaths </option>
+                <option value="new_death">new deaths </option>
+                <option value="total_healed">recovered total </option>
+                <option value="still_healing">under treatment </option>
                 </select>
             </label>
         </form>
     </div>
+
     <div id=divisor_x_top2></div>
     <div id=left >
         <div id="left1">
@@ -67,7 +73,7 @@
 
     <div id=divisor_x_bottom2></div>
 
-    <input id="progress" style="color:#FFF" type="range" value="0" min="0" max="144" onchange="progressBarChange()" list="datelist" />
+    <input id="progress" type="range" value="0" min="0" max="144" list="datelist" />
 
     <datalist id="datelist" display: true>
         <option value="0" style="color:#FFF" label="2/1"></option>

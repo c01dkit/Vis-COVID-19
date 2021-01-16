@@ -3,13 +3,13 @@ const base = +new Date(2020, 2, 1);
 var fileName = "./data/2020-2-1.json"
 var previousProgressBarValue = null
 var previousSelector = null
+var globalData = null
 var dataList = [ //数据
 
 ]
 
 function drawMap() {
 	var map = echarts.init(document.getElementById('map'));//初始化
-	// var COLORS = ["#ffffff", "#faebd2", "#e9a188", "#d56355", "#bb3937", "#772526", "#480f10"];//图例里的颜色
 	var COLORS = ["#eeeeee", "#faebd2", "#FFDEAD", "#FF7F50", "#FF4500", "#FF0000", "#CD0000"]; //图例里的颜色
 	var option = { //配置项（名称）
 
@@ -89,7 +89,7 @@ function drawMap() {
 
 
 $(document).ready(function (){
-	refreshDataList("2020-2-1","total_diagnosed");
+	refreshAll("2020-2-1","total_diagnosed");
 	setInterval(checkIfUpdated,200)
 })
 
@@ -108,18 +108,45 @@ function checkIfUpdated() {
 	if (needUpdate){
 		const now = new Date(base + oneDay * dateDisp);
 		const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
-		refreshDataList(name,selector)
+		refreshAll(name,selector)
+	}
+}
+
+function updateLeftPanel(param) {
+	if (previousSelector === "new_diagnosed"){
+		$("#globaldata").text(globalData.new_diagnosed)
+		$("#gloabaltype").text(param+" 全球新增确诊")
+	} else if (previousSelector==="total_diagnosed"){ // 加载累计确诊病例数据
+		$("#globaldata").text(globalData.total_diagnosed)
+		$("#gloabaltype").text(param+" 全球累计确诊")
+	} else if (previousSelector==="total_death"){ // 加载累计死亡病例数据
+		$("#globaldata").text(globalData.total_death)
+		$("#gloabaltype").text(param+" 全球累计死亡")
+	} else if (previousSelector==="new_death"){ // 加载新增死亡病例数据
+		$("#globaldata").text(globalData.new_death)
+		$("#gloabaltype").text(param+" 全球新增死亡")
+	} else if (previousSelector==="total_healed"){ // 加载累计治愈数据
+		$("#globaldata").text(globalData.total_healed)
+		$("#gloabaltype").text(param+" 全球累计治愈")
+	} else if (previousSelector==="still_healing"){ // 加载仍处于治疗阶段数据
+		$("#globaldata").text(globalData.still_healing)
+		$("#gloabaltype").text(param+" 全球仍在治愈")
+	} else if (previousSelector==="seriously_ill") { // 加载病危数据
+		$("#globaldata").text(globalData.seriously_ill)
+		$("#gloabaltype").text(param+" 全球重症病例")
 	}
 }
 
 
-function refreshDataList(dateName,selector){
+
+function refreshAll(dateName,selector){
 	if (dateName!==null){
 		fileName = "./data/" + dateName + ".json";
 	}
 	$.get(fileName).fail(function (dataSet){
 		let resultData = eval("(" + dataSet.responseText + ")");
 		let finalSets = resultData.inner_value;
+		globalData = finalSets[0];
 		dataList.splice(0,dataList.length);
 		if (selector==="new_diagnosed"){ // 加载新增确诊病例数据
 			for (item of finalSets){
@@ -151,6 +178,7 @@ function refreshDataList(dateName,selector){
 			}
 		}
 		drawMap()
+		updateLeftPanel(dateName)
 	});
 }
 

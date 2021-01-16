@@ -36,13 +36,13 @@
         <form>
             <label>
                 <select name="options" id="selector">
-                <option value="new_diagnosed">new cases </option>
-                <option value="total_diagnosed" selected="selected">cumulative cases </option>
-                <option value="seriously_ill">serious cases </option>
-                <option value="total_death">cumulative deaths </option>
-                <option value="new_death">new deaths </option>
-                <option value="total_healed">recovered total </option>
-                <option value="still_healing">under treatment </option>
+                <option value="new_diagnosed">新增病例</option>
+                <option value="total_diagnosed" selected="selected">累计确诊</option>
+                <option value="seriously_ill">重症病例</option>
+                <option value="total_death">累计死亡</option>
+                <option value="new_death">新增死亡</option>
+                <option value="total_healed">累计治愈</option>
+                <option value="still_healing">仍在治疗</option>
                 </select>
             </label>
         </form>
@@ -51,9 +51,9 @@
     <div id=divisor_x_top2></div>
     <div id=left >
         <div id="left1">
-            <p class="left1_1">Global Cases</p>
+            <p id="gloabaltype" class="left1_1">----</p>
             <!-- 需改为统计数据 -->
-            <p class="left1_2">1,571,901</p>
+            <p id="globaldata" class="left1_2">----</p>
         </div>
 
         <div id="left2" class="scroll-box">

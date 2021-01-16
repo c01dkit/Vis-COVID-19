@@ -6,14 +6,42 @@
         
         #title {
             position: absolute;
-            width: 98%;
+            width: 80%;
+            height: 7%;
+            text-align: center;
+            background-color: #222222;
+            top: 1%;
+            left: 10%;
+            right: 10%;
+            overflow: hidden;
+            float: left;
+        }
+        
+        #title_left {
+            position: absolute;
+            width: 9%;
             height: 7%;
             text-align: center;
             background-color: #222222;
             top: 1%;
             left: 1%;
+            right: 90%;
+            overflow: hidden;
+            float: left;
+        }
+        /*for selection*/
+        
+        #title_right {
+            position: absolute;
+            width: 9%;
+            height: 7%;
+            text-align: center;
+            background-color: #222222;
+            top: 1%;
+            left: 90%;
             right: 1%;
             overflow: hidden;
+            float: left;
         }
         
         #left {
@@ -155,6 +183,8 @@
             height: 1%;
             background-color: black;
         }
+        /* font */
+        
         p.title {
             font-family: "Arial";
             font-size: 30px;
@@ -162,7 +192,7 @@
             color: #d6d6d6;
             line-height: 0px;
         }
-
+        
         p.left1_1 {
             font-family: "Arial";
             font-size: 20px;
@@ -170,7 +200,7 @@
             margin: 0 auto;
             line-height: 50pt;
         }
-
+        
         p.left1_2 {
             font-family: "Arial";
             font-size: 40px;
@@ -178,11 +208,25 @@
             font-weight: bold;
             margin: 0 auto;
         }
-
+        
         p.left2_1 {
             font-family: "Arial";
             font-size: 15px;
             color: #d6d6d6;
             margin: 0;
             line-height: 30pt;
+        }
+        
+        .select_style {
+            margin-top: 12px;
+            margin-right: 5px;
+            background: #222222;
+            height: 28px;
+            width: 180px;
+            line-height: 28px;
+            border: 1px solid #000000;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            color: #d6d6d6;
         }

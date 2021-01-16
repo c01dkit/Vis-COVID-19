@@ -1,7 +1,7 @@
-
 // 全局变量与状态保存
 const oneDay = 24 * 3600 * 1000; // 24h毫秒数 用于计算日期偏移
 const base = +new Date(2020, 2, 1);
+
 var fileName = "./data/2020-2-1.json"; // 预加载文件
 var previousProgressBarValue = null; // 置空进度条数值
 var previousSelector = null;  // 置空下拉列表值
@@ -9,6 +9,7 @@ const caseType = ['累计确诊','新增确诊','累计死亡','新增死亡','�
 const caseTypeEN = ['total_diagnosed','new_diagnosed','total_death','new_death','total_healed','still_healing','seriously_ill']
 // 左上全球数据
 var globalData = null;  // 置空左上全球数据
+
 
 // 左下国家对比图
 const maxNum = 5;  // 设定最大排名数目
@@ -44,8 +45,8 @@ for (let i = 0 ; i < 144; i++){
     us_data.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
 }
 
-
 function checkIfUpdated(compulsory) {
+
     let needUpdate = false;
     const dateDisp = parseInt($("#progress").val())
     if (dateDisp !== previousProgressBarValue || previousProgressBarValue == null) {
@@ -196,6 +197,15 @@ function drawLeftBottomCountryCases() {
                 },
                 saveAsImage: {
                     pixelRatio: 2
+                },
+                myTool2: { //自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+                    show: true, //是否显示    
+                    title: '显示日历', //鼠标移动上去显示的文字    
+                    icon: 'path://M525.4 721.2H330.9c-9 0-18.5-7.7-18.5-18.1V311c0-9 9.3-18.1 18.5-18.1h336.6c9.3 0 18.5 9.1 18.5 18.1v232.7c0 6 8.8 12.1 15 12.1 6.2 0 15-6 15-12.1V311c0-25.6-25.3-48.9-50.1-48.9h-335c-26.2 0-50.1 23.3-50.1 48.9v389.1c0 36.3 20 51.5 50.1 51.5h197.6c6.2 0 9.3-7.5 9.3-15.1 0-6-6.2-15.3-12.4-15.3zM378.8 580.6c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h141.4c6.2 0 12.3-5.8 12.3-13.4 0.3-9.5-6.2-15.9-12.3-15.9H378.8z m251.6-91.2c0-6-6.2-14.6-12.3-14.6H375.7c-6.2 0-12.4 8.6-12.4 14.6s6.2 14.6 12.4 14.6h240.8c6.2 0.1 13.9-8.5 13.9-14.6z m-9.2-120.5H378.8c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h240.8c7.7 0 13.9-8.6 13.9-14.6s-6.2-14.6-12.3-14.6z m119.4 376.6L709 714.1c9.2-12 14.6-27 14.6-43.2 0-39.4-32.1-71.4-71.8-71.4-39.7 0-71.8 32-71.8 71.4s32.1 71.4 71.8 71.4c16.3 0 31.3-5.4 43.4-14.5l31.6 31.5c3.8 3.8 10 3.8 13.8 0 3.8-3.8 3.8-10 0-13.8z m-88.8-23.6c-28.3 0-51.3-22.8-51.3-51s23-51 51.3-51c28.3 0 51.3 22.8 51.3 51s-23 51-51.3 51z', //图标    
+                    onclick: function() { //点击事件,这里的option1是chart的option信息    
+                        left2.clear()
+                        drawCalendar()
+                    }
                 }
             }
         },
@@ -298,8 +308,8 @@ function drawMiddleMap() {
 
         tooltip: { //提示框组件
             formatter: function(params, ticket, callback) { //提示框浮层内容格式器，支持字符串模板和回调函数两种形式。
-                return params.seriesName + '<br />' + params.name + '：' + params.value
-            } //数据格式化
+                    return params.seriesName + '<br />' + params.name + '：' + params.value
+                } //数据格式化
         },
 
         backgroundColor: '#030f19', //背景色
@@ -355,6 +365,22 @@ function drawMiddleMap() {
                     shadowBlur: 20,
                     borderWidth: 0,
                     shadowColor: '#eeeeee'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                magicType: {
+                    type: ['tiled']
+                },
+                myTool2: { //自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+                    show: true, //是否显示    
+                    title: '显示中国地图', //鼠标移动上去显示的文字    
+                    icon: 'path://M525.4 721.2H330.9c-9 0-18.5-7.7-18.5-18.1V311c0-9 9.3-18.1 18.5-18.1h336.6c9.3 0 18.5 9.1 18.5 18.1v232.7c0 6 8.8 12.1 15 12.1 6.2 0 15-6 15-12.1V311c0-25.6-25.3-48.9-50.1-48.9h-335c-26.2 0-50.1 23.3-50.1 48.9v389.1c0 36.3 20 51.5 50.1 51.5h197.6c6.2 0 9.3-7.5 9.3-15.1 0-6-6.2-15.3-12.4-15.3zM378.8 580.6c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h141.4c6.2 0 12.3-5.8 12.3-13.4 0.3-9.5-6.2-15.9-12.3-15.9H378.8z m251.6-91.2c0-6-6.2-14.6-12.3-14.6H375.7c-6.2 0-12.4 8.6-12.4 14.6s6.2 14.6 12.4 14.6h240.8c6.2 0.1 13.9-8.5 13.9-14.6z m-9.2-120.5H378.8c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h240.8c7.7 0 13.9-8.6 13.9-14.6s-6.2-14.6-12.3-14.6z m119.4 376.6L709 714.1c9.2-12 14.6-27 14.6-43.2 0-39.4-32.1-71.4-71.8-71.4-39.7 0-71.8 32-71.8 71.4s32.1 71.4 71.8 71.4c16.3 0 31.3-5.4 43.4-14.5l31.6 31.5c3.8 3.8 10 3.8 13.8 0 3.8-3.8 3.8-10 0-13.8z m-88.8-23.6c-28.3 0-51.3-22.8-51.3-51s23-51 51.3-51c28.3 0 51.3 22.8 51.3 51s-23 51-51.3 51z', //图标    
+                    onclick: function() { //点击事件,这里的option1是chart的option信息    
+                        map.clear()
+                        drawChina()
+                    }
                 }
             }
         },
@@ -453,6 +479,7 @@ function drawRightTopRadar() {
                 opacity: 0.1
             }
         },
+
         ]
     };
 
@@ -567,11 +594,264 @@ function drawRightBottomContrast() {
     };
 
     right3.setOption(option);
-
 }
 
-// html加载完毕后执行
-$(document).ready(function() {
-    refreshAll("2020-2-1", "total_diagnosed"); // 默认填充2020-2-1的累计确诊数据
-    setInterval(checkIfUpdated, 200)
+function drawCalendar() {
+    var right2 = echarts.init(document.getElementById('left2')); //初始化
+
+    var COLORS = ["#eeeeee", "#faebd2", "#FFDEAD", "#FF7F50", "#FF4500", "#FF0000", "#CD0000"]; //图例里的颜色
+
+    function getVirtulData(year) {
+        year = year || '2020';
+        var date = +echarts.number.parseDate(year + '-02-01');
+        var end = +echarts.number.parseDate(year + '-06-29');
+        var dayTime = 3600 * 24 * 1000;
+        var data = [];
+        for (var time = date; time < end; time += dayTime) {
+            data.push([
+                echarts.format.formatTime('yyyy-MM-dd', time),
+                Math.floor(Math.random() * 10000)
+            ]);
+        }
+        return data;
+    }
+
+
+    // option = {
+    //     tooltip: {
+    //         position: 'top',
+    //         formatter: function(p) {
+    //             var format = echarts.format.formatTime('yyyy-MM-dd', p.data[0]);
+    //             return format + ': ' + p.data[1];
+    //         }
+    //     },
+    //     visualMap: {
+    //         min: 0,
+    //         max: 1000,
+    //         calculable: true,
+    //         orient: 'vertical',
+    //         left: '120',
+    //         top: 'center',
+    //         inRange: {
+    //             color: COLORS //取值范围的颜色
+    //         },
+    //     },
+
+    //     calendar: [{
+    //         top: 5,
+    //         left: 10,
+    //         bottom: 5,
+    //         orient: 'vertical',
+    //         range: ["2020-02-01", "2020-6-29"],
+    //         color: '#d6d6d6'
+    //     }],
+
+    //     series: [{
+    //         type: 'heatmap',
+    //         coordinateSystem: 'calendar',
+    //         calendarIndex: 0,
+    //         data: getVirtulData(2020)
+    //     }]
+    // };
+
+    var data = getVirtulData(2020);
+    option = {
+
+
+        title: {
+            top: 0,
+            text: 'Total Cases',
+            left: 'center',
+            textStyle: {
+                color: '#d6d6d6'
+            }
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '30',
+            left: '100',
+            data: ['Cases', 'Top 12'],
+            textStyle: {
+                color: '#d6d6d6'
+            }
+        },
+        calendar: [{
+            top: 40,
+            buttom: 10,
+            left: 'center',
+            orient: 'vertical',
+            range: ['2020-02-02', '2020-06-29'],
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    color: '#000',
+                    width: 2,
+                    type: 'solid'
+                }
+            },
+            itemStyle: {
+                color: '#222222',
+                borderWidth: 1,
+                borderColor: '#111'
+            }
+
+        }],
+        toolbox: {
+            feature: {
+                magicType: {
+                    type: ['tiled']
+                },
+                myTool2: { //自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+                    show: true, //是否显示    
+                    title: '返回Cases', //鼠标移动上去显示的文字    
+                    icon: 'path://M525.4 721.2H330.9c-9 0-18.5-7.7-18.5-18.1V311c0-9 9.3-18.1 18.5-18.1h336.6c9.3 0 18.5 9.1 18.5 18.1v232.7c0 6 8.8 12.1 15 12.1 6.2 0 15-6 15-12.1V311c0-25.6-25.3-48.9-50.1-48.9h-335c-26.2 0-50.1 23.3-50.1 48.9v389.1c0 36.3 20 51.5 50.1 51.5h197.6c6.2 0 9.3-7.5 9.3-15.1 0-6-6.2-15.3-12.4-15.3zM378.8 580.6c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h141.4c6.2 0 12.3-5.8 12.3-13.4 0.3-9.5-6.2-15.9-12.3-15.9H378.8z m251.6-91.2c0-6-6.2-14.6-12.3-14.6H375.7c-6.2 0-12.4 8.6-12.4 14.6s6.2 14.6 12.4 14.6h240.8c6.2 0.1 13.9-8.5 13.9-14.6z m-9.2-120.5H378.8c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h240.8c7.7 0 13.9-8.6 13.9-14.6s-6.2-14.6-12.3-14.6z m119.4 376.6L709 714.1c9.2-12 14.6-27 14.6-43.2 0-39.4-32.1-71.4-71.8-71.4-39.7 0-71.8 32-71.8 71.4s32.1 71.4 71.8 71.4c16.3 0 31.3-5.4 43.4-14.5l31.6 31.5c3.8 3.8 10 3.8 13.8 0 3.8-3.8 3.8-10 0-13.8z m-88.8-23.6c-28.3 0-51.3-22.8-51.3-51s23-51 51.3-51c28.3 0 51.3 22.8 51.3 51s-23 51-51.3 51z', //图标    
+                    onclick: function() { //点击事件,这里的option1是chart的option信息    
+                        right2.clear()
+                        drawLeftBottomCountryCases()
+                    }
+                }
+            }
+        },
+        series: [{
+                name: 'Cases',
+                type: 'scatter',
+                coordinateSystem: 'calendar',
+                data: data,
+                symbolSize: function(val) {
+                    return val[1] / 500;
+                },
+                itemStyle: {
+                    color: '#ddb926',
+                    shadowBlur: 0,
+                    shadowColor: '#eee'
+                }
+            },
+            {
+                name: 'Top 10',
+                type: 'effectScatter',
+                coordinateSystem: 'calendar',
+                data: data.sort(function(a, b) {
+                    return b[1] - a[1];
+                }).slice(0, 10),
+                symbolSize: function(val) {
+                    return val[1] / 500;
+                },
+                showEffectOn: 'render',
+                rippleEffect: {
+                    brushType: 'stroke'
+                },
+                hoverAnimation: true,
+                itemStyle: {
+                    color: '#f4e925',
+                    shadowBlur: 10,
+                    shadowColor: '#333'
+                },
+                zlevel: 1
+            }
+        ]
+    };
+
+    right2.setOption(option);
+}
+
+function drawChina() {
+    var map = echarts.init(document.getElementById('map')); //初始化
+    var COLORS = ["#eeeeee", "#faebd2", "#FFDEAD", "#FF7F50", "#FF4500", "#FF0000", "#CD0000"]; //图例里的颜色
+    var option = { //配置项（名称）
+
+        tooltip: { //提示框组件
+            formatter: function(params, ticket, callback) { //提示框浮层内容格式器，支持字符串模板和回调函数两种形式。
+                    return params.seriesName + '<br />' + params.name + '：' + params.value
+                } //数据格式化
+        },
+
+        backgroundColor: '#030f19', //背景色
+        visualMap: { //visualMap 是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+            type: 'piecewise', //分段型视觉映射组件
+            orient: 'horizontal', //方向
+
+            left: 'left', //位置
+            top: 'bottom', //位置
+            textStyle: {
+                color: '#d6d6d6'
+            },
+            pieces: [
+                { value: 0, color: COLORS[0] },
+                { min: 1, max: 9, color: COLORS[1] },
+                { min: 10, max: 99, color: COLORS[2] },
+                { min: 100, max: 499, color: COLORS[3] },
+                { min: 500, max: 999, color: COLORS[4] },
+                { min: 1000, max: 10000, color: COLORS[5] },
+                { min: 10000, color: COLORS[6] }
+            ],
+            inRange: {
+                color: COLORS //取值范围的颜色
+            },
+
+            show: true //图注
+        },
+        toolbox: {
+            feature: {
+                magicType: {
+                    type: ['tiled']
+                },
+                myTool2: { //自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+                    show: true, //是否显示    
+                    title: '返回世界地图', //鼠标移动上去显示的文字    
+                    icon: 'path://M525.4 721.2H330.9c-9 0-18.5-7.7-18.5-18.1V311c0-9 9.3-18.1 18.5-18.1h336.6c9.3 0 18.5 9.1 18.5 18.1v232.7c0 6 8.8 12.1 15 12.1 6.2 0 15-6 15-12.1V311c0-25.6-25.3-48.9-50.1-48.9h-335c-26.2 0-50.1 23.3-50.1 48.9v389.1c0 36.3 20 51.5 50.1 51.5h197.6c6.2 0 9.3-7.5 9.3-15.1 0-6-6.2-15.3-12.4-15.3zM378.8 580.6c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h141.4c6.2 0 12.3-5.8 12.3-13.4 0.3-9.5-6.2-15.9-12.3-15.9H378.8z m251.6-91.2c0-6-6.2-14.6-12.3-14.6H375.7c-6.2 0-12.4 8.6-12.4 14.6s6.2 14.6 12.4 14.6h240.8c6.2 0.1 13.9-8.5 13.9-14.6z m-9.2-120.5H378.8c-6.2 0-12.3 8.6-12.3 14.6s6.2 14.6 12.3 14.6h240.8c7.7 0 13.9-8.6 13.9-14.6s-6.2-14.6-12.3-14.6z m119.4 376.6L709 714.1c9.2-12 14.6-27 14.6-43.2 0-39.4-32.1-71.4-71.8-71.4-39.7 0-71.8 32-71.8 71.4s32.1 71.4 71.8 71.4c16.3 0 31.3-5.4 43.4-14.5l31.6 31.5c3.8 3.8 10 3.8 13.8 0 3.8-3.8 3.8-10 0-13.8z m-88.8-23.6c-28.3 0-51.3-22.8-51.3-51s23-51 51.3-51c28.3 0 51.3 22.8 51.3 51s-23 51-51.3 51z', //图标    
+                    onclick: function() { //点击事件,这里的option1是chart的option信息    
+                        map.clear()
+                        drawMiddleMap()
+                    }
+                }
+            }
+        },
+        geo: { //地理坐标系组件用于地图的绘制
+            map: 'china',
+            roam: true, //开启缩放与平移
+            zoom: 1.23, //视角缩放比例
+            scaleLimit: {
+                min: 1.2,
+                max: 7,
+            },
+            label: {
+                normal: {
+                    show: false, //默认不显示文本
+                    fontSize: '10',
+                    color: 'rgba(0,0,0,0.7)'
+                }
+
+            },
+            itemStyle: {
+                normal: {
+                    borderColor: 'rgba(0, 0, 0, 0.2)',
+                    areaColor: '#eeeeee'
+                },
+                emphasis: {
+                    areaColor: '#F3B329', //鼠标选择区域颜色
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    shadowBlur: 20,
+                    borderWidth: 0,
+                    shadowColor: '#eeeeee'
+                }
+            }
+        },
+        series: [ //系列列表。（图表）
+            {
+                name: '疫情人数',
+                type: 'map', //图表类型
+                geoIndex: 0,
+                data: dataList //图表的数据
+            }
+        ]
+    }
+    map.setOption(option); //用配置项配置（动词）echarts
+}
+
+$(document).ready(function (){
+    refreshAll("2020-2-1",caseTypeEN[0])
+    setInterval(checkIfUpdated,200)
 })

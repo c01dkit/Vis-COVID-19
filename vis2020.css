@@ -155,3 +155,32 @@
             height: 1%;
             background-color: black;
         }
+        p.title {
+            font-family: "Arial";
+            font-size: 30px;
+            letter-spacing: 4px;
+            color: #d6d6d6;
+            line-height: 0px;
+        }
+
+        p.left1_1 {
+            font-family: "Arial";
+            font-size: 20px;
+            color: white;
+            margin: 0 auto;
+            line-height: 50pt;
+        }
+
+        p.left1_2 {
+            font-family: "Arial";
+            font-size: 40px;
+            color: #f02512;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+        p.left2_1 {
+            font-family: "Arial";
+            font-size: 15px;
+            color: #d6d6d6
+        }

@@ -168,11 +168,12 @@ function updateLeftPanel(param) {
         $("#gloabaltype").text(param + " 全球累计治愈")
     } else if (previousSelector === "still_healing") { // 加载仍处于治疗阶段数据
         $("#globaldata").text(globalData.still_healing)
-        $("#gloabaltype").text(param + " 全球仍在治愈")
+        $("#gloabaltype").text(param + " 全球仍在治疗")
     } else if (previousSelector === "seriously_ill") { // 加载病危数据
         $("#globaldata").text(globalData.seriously_ill)
         $("#gloabaltype").text(param + " 全球重症病例")
     }
+
 }
 
 
@@ -331,6 +332,7 @@ function drawContrast() {
     };
 
     right3.setOption(option);
+
 }
 
 

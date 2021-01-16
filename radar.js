@@ -112,109 +112,122 @@
     };
 
     option = {
-        backgroundColor: '#222222',
-        title: {
-            text: 'Single Country',
-            left: 10,
-            top: 10,
-            textStyle: {
-                color: '#696969',
-                fontSize: 15
-            }
-        },
-        legend: {
-            bottom: 5,
-            data: ['China', 'US', 'Korea'],
-            itemGap: 20,
-            textStyle: {
-                color: '#d6d6d6',
-                fontSize: 12
-            },
-            // selectedMode: 'single'
-        },
-        // visualMap: {
-        //     show: true,
-        //     min: 0,
-        //     max: 20,
-        //     dimension: 6,
-        //     inRange: {
-        //         colorLightness: [0.5, 0.8]
-        //     }
-        // },
-        radar: {
-            indicator: [
-                { name: 'NC', max: 300 },
-                { name: 'CC', max: 300 },
-                { name: 'ND', max: 300 },
-                { name: 'CD', max: 5 },
-                { name: 'UT', max: 200 },
-                { name: 'CR', max: 100 }
-            ],
-            shape: 'circle',
-            splitNumber: 5,
-            name: {
+            backgroundColor: '#222222',
+            title: {
+                text: '单个国家所有情况',
+                left: 10,
+                top: 10,
                 textStyle: {
-                    color: 'rgb(238, 197, 102)'
+                    color: '#696969',
+                    fontSize: 15
                 }
             },
-            splitLine: {
-                lineStyle: {
-                    color: [
-                        'rgba(238, 197, 102, 0.1)', 'rgba(238, 197, 102, 0.2)',
-                        'rgba(238, 197, 102, 0.4)', 'rgba(238, 197, 102, 0.6)',
-                        'rgba(238, 197, 102, 0.8)', 'rgba(238, 197, 102, 1)'
-                    ].reverse()
-                }
-            },
-            splitArea: {
-                show: false
-            },
-            axisLine: {
-                lineStyle: {
-                    color: 'rgba(238, 197, 102, 0.5)'
-                }
-            }
-        },
-        series: [{
-                name: 'China',
-                type: 'radar',
-                lineStyle: lineStyle,
-                data: dataBJ,
-                symbol: 'none',
-                itemStyle: {
-                    color: '#F9713C'
+            legend: {
+                bottom: 5,
+                data: ['中国', '美国', '韩国'],
+                itemGap: 20,
+                textStyle: {
+                    color: '#d6d6d6',
+                    fontSize: 12
                 },
-                areaStyle: {
-                    opacity: 0.1
+                // selectedMode: 'single'
+            },
+            // visualMap: {
+            //     show: true,
+            //     min: 0,
+            //     max: 20,
+            //     dimension: 6,
+            //     inRange: {
+            //         colorLightness: [0.5, 0.8]
+            //     }
+            // },
+            radar: {
+                indicator: [
+                    { name: '新增确诊', max: 300 },
+                    { name: '累计确诊', max: 300 },
+                    { name: '新增死亡', max: 300 },
+                    { name: '累计死亡', max: 5 },
+                    { name: '仍在治疗', max: 200 },
+                    { name: '累计治愈', max: 100 }
+                ],
+                shape: 'circle',
+                splitNumber: 5,
+                name: {
+                    textStyle: {
+                        color: '#696969',
+                        fontSize: 15
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: [
+                            'rgba(238, 197, 102, 0.1)', 'rgba(238, 197, 102, 0.2)',
+                            'rgba(238, 197, 102, 0.4)', 'rgba(238, 197, 102, 0.6)',
+                            'rgba(238, 197, 102, 0.8)', 'rgba(238, 197, 102, 1)'
+                        ].reverse()
+                    }
+                },
+                splitArea: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(238, 197, 102, 0.5)'
+                    }
                 }
             },
-            {
-                name: 'US',
-                type: 'radar',
-                lineStyle: lineStyle,
-                data: dataSH,
-                symbol: 'none',
-                itemStyle: {
-                    color: '#B3E4A1'
+            series: [{
+                    name: '中国',
+                    type: 'radar',
+                    lineStyle: lineStyle,
+                    data: dataBJ,
+                    symbol: 'none',
+                    itemStyle: {
+                        color: '#F9713C'
+                    },
+                    // selectedMode: 'single'
                 },
-                areaStyle: {
-                    opacity: 0.05
-                }
-            },
-            {
-                name: 'Korea',
-                type: 'radar',
-                lineStyle: lineStyle,
-                data: dataGZ,
-                symbol: 'none',
-                itemStyle: {
-                    color: 'rgb(238, 197, 102)'
+                {
+                    name: '美国',
+                    type: 'radar',
+                    lineStyle: lineStyle,
+                    data: dataSH,
+                    symbol: 'none',
+                    itemStyle: {
+                        color: '#B3E4A1'
+                    },
+                    splitArea: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(238, 197, 102, 0.5)'
+                        }
+                    }
                 },
-                areaStyle: {
-                    opacity: 0.05
-                }
-            }
-        ]
-    };
+                {
+                    name: '韩国',
+                    type: 'radar',
+                    lineStyle: lineStyle,
+                    data: dataGZ,
+                    symbol: 'none',
+                    itemStyle: {
+                        color: 'rgb(238, 197, 102)'
+                    },
+                    {
+                        name: 'Korea',
+                        type: 'radar',
+                        lineStyle: lineStyle,
+                        data: dataGZ,
+                        symbol: 'none',
+                        itemStyle: {
+                            color: 'rgb(238, 197, 102)'
+                        },
+                        areaStyle: {
+                            opacity: 0.05
+                        }
+                    }
+                ]
+            };
 
-    radar.setOption(option);
+            radar.setOption(option);

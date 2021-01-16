@@ -1,6 +1,8 @@
 const oneDay = 24 * 3600 * 1000;
 const base = +new Date(2020, 2, 1);
 var fileName = "./data/2020-2-1.json"
+var previousProgressBarValue = null
+var previousSelector = null
 var dataList = [ //数据
 
 ]
@@ -87,38 +89,29 @@ function drawMap() {
 
 
 $(document).ready(function (){
-	$("#selector").change(function (){
-		selectorChange()
-	});
-	refreshDataListByDateForTotalDiagonsed("2020-2-1");
-	setInterval(drawMap,200)
+	refreshDataList("2020-2-1","total_diagnosed");
+	setInterval(checkIfUpdated,200)
 })
 
-function progressBarChange() {
+function checkIfUpdated() {
+	let needUpdate = false;
 	const dateDisp = parseInt($("#progress").val())
-	const now = new Date(base + oneDay * dateDisp);
-	const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
-	refreshDataListByDateForTotalDiagonsed(name)
-}
-
-function refreshDataListByDateForTotalDiagonsed(param){
-	fileName = "./data/" + param + ".json";
-	$.get(fileName).fail(function (dataSet){
-		let resultData = eval("(" + dataSet.responseText + ")");
-		// console.log(resultData);
-		let finalSets = resultData.inner_value;
-		dataList.splice(0,dataList.length);
-		for (item of finalSets){
-			dataList.push({name:item.region,value:item.total_diagnosed})
-		}
-	});
-	drawMap()
-}
-
-function selectorChange() {
+	if (dateDisp!==previousProgressBarValue || previousProgressBarValue == null){
+		previousProgressBarValue = dateDisp
+		needUpdate = true
+	}
 	const selector = $("select  option:selected").val();
-	refreshDataList(null,selector);
+	if (selector!==previousSelector || previousSelector == null){
+		previousSelector = selector
+		needUpdate = true
+	}
+	if (needUpdate){
+		const now = new Date(base + oneDay * dateDisp);
+		const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
+		refreshDataList(name,selector)
+	}
 }
+
 
 function refreshDataList(dateName,selector){
 	if (dateName!==null){
@@ -157,8 +150,8 @@ function refreshDataList(dateName,selector){
 				dataList.push({name: item.region, value: item.seriously_ill})
 			}
 		}
+		drawMap()
 	});
-	drawMap()
 }
 
 

@@ -9,177 +9,175 @@ var dataList = [ //数据
 ]
 
 function drawMap() {
-	var map = echarts.init(document.getElementById('map'));//初始化
-	var COLORS = ["#eeeeee", "#faebd2", "#FFDEAD", "#FF7F50", "#FF4500", "#FF0000", "#CD0000"]; //图例里的颜色
-	var option = { //配置项（名称）
+    var map = echarts.init(document.getElementById('map')); //初始化
+    var COLORS = ["#eeeeee", "#faebd2", "#FFDEAD", "#FF7F50", "#FF4500", "#FF0000", "#CD0000"]; //图例里的颜色
+    var option = { //配置项（名称）
 
-		tooltip: { //提示框组件
-			formatter: function(params, ticket, callback) { //提示框浮层内容格式器，支持字符串模板和回调函数两种形式。
-				return params.seriesName + '<br />' + params.name + '：' + params.value
-			} //数据格式化
-		},
+        tooltip: { //提示框组件
+            formatter: function(params, ticket, callback) { //提示框浮层内容格式器，支持字符串模板和回调函数两种形式。
+                    return params.seriesName + '<br />' + params.name + '：' + params.value
+                } //数据格式化
+        },
 
-		backgroundColor: '#030f19', //背景色
-		visualMap: { //visualMap 是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
-			type: 'piecewise', //分段型视觉映射组件
-			orient: 'horizontal', //方向
+        backgroundColor: '#030f19', //背景色
+        visualMap: { //visualMap 是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+            type: 'piecewise', //分段型视觉映射组件
+            orient: 'horizontal', //方向
 
-			left: 'left', //位置
-			top: 'bottom', //位置
-			textStyle: {
-				color: '#d6d6d6'
-			},
-			pieces: [
-				{ value: 0, color: COLORS[0] },
-				{ min: 1, max: 9, color: COLORS[1] },
-				{ min: 10, max: 99, color: COLORS[2] },
-				{ min: 100, max: 499, color: COLORS[3] },
-				{ min: 500, max: 999, color: COLORS[4] },
-				{ min: 1000, max: 10000, color: COLORS[5] },
-				{ min: 10000, color: COLORS[6] }
-			],
-			inRange: {
-				color: COLORS //取值范围的颜色
-			},
+            left: 'left', //位置
+            top: 'bottom', //位置
+            textStyle: {
+                color: '#d6d6d6'
+            },
+            pieces: [
+                { value: 0, color: COLORS[0] },
+                { min: 1, max: 9, color: COLORS[1] },
+                { min: 10, max: 99, color: COLORS[2] },
+                { min: 100, max: 499, color: COLORS[3] },
+                { min: 500, max: 999, color: COLORS[4] },
+                { min: 1000, max: 10000, color: COLORS[5] },
+                { min: 10000, color: COLORS[6] }
+            ],
+            inRange: {
+                color: COLORS //取值范围的颜色
+            },
 
-			show: true //图注
-		},
-		geo: { //地理坐标系组件用于地图的绘制
-			map: 'world',
-			roam: true, //开启缩放与平移
-			zoom: 1.23, //视角缩放比例
-			scaleLimit:{
-				min:1.2,
-				max:7,
-			},
-			label: {
-				normal: {
-					show: false, //默认不显示文本
-					fontSize: '10',
-					color: 'rgba(0,0,0,0.7)'
-				}
+            show: true //图注
+        },
+        geo: { //地理坐标系组件用于地图的绘制
+            map: 'world',
+            roam: true, //开启缩放与平移
+            zoom: 1.23, //视角缩放比例
+            scaleLimit: {
+                min: 1.2,
+                max: 7,
+            },
+            label: {
+                normal: {
+                    show: false, //默认不显示文本
+                    fontSize: '10',
+                    color: 'rgba(0,0,0,0.7)'
+                }
 
-			},
-			itemStyle: {
-				normal: {
-					borderColor: 'rgba(0, 0, 0, 0.2)',
-					areaColor: '#eeeeee'
-				},
-				emphasis: {
-					areaColor: '#F3B329', //鼠标选择区域颜色
-					shadowOffsetX: 0,
-					shadowOffsetY: 0,
-					shadowBlur: 20,
-					borderWidth: 0,
-					shadowColor: '#eeeeee'
-				}
-			}
-		},
-		series: [ //系列列表。（图表）
-			{
-				name: '疫情人数',
-				type: 'map', //图表类型
-				geoIndex: 0,
-				data: dataList //图表的数据
-			}
-		]
-	}
-	map.setOption(option);//用配置项配置（动词）echarts
+            },
+            itemStyle: {
+                normal: {
+                    borderColor: 'rgba(0, 0, 0, 0.2)',
+                    areaColor: '#eeeeee'
+                },
+                emphasis: {
+                    areaColor: '#F3B329', //鼠标选择区域颜色
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    shadowBlur: 20,
+                    borderWidth: 0,
+                    shadowColor: '#eeeeee'
+                }
+            }
+        },
+        series: [ //系列列表。（图表）
+            {
+                name: '疫情人数',
+                type: 'map', //图表类型
+                geoIndex: 0,
+                data: dataList //图表的数据
+            }
+        ]
+    }
+    map.setOption(option); //用配置项配置（动词）echarts
 }
 
 
-$(document).ready(function (){
-	refreshAll("2020-2-1","total_diagnosed");
-	setInterval(checkIfUpdated,200)
+$(document).ready(function() {
+    refreshAll("2020-2-1", "total_diagnosed");
+    setInterval(checkIfUpdated, 200)
 })
 
 function checkIfUpdated() {
-	let needUpdate = false;
-	const dateDisp = parseInt($("#progress").val())
-	if (dateDisp!==previousProgressBarValue || previousProgressBarValue == null){
-		previousProgressBarValue = dateDisp
-		needUpdate = true
-	}
-	const selector = $("select  option:selected").val();
-	if (selector!==previousSelector || previousSelector == null){
-		previousSelector = selector
-		needUpdate = true
-	}
-	if (needUpdate){
-		const now = new Date(base + oneDay * dateDisp);
-		const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
-		refreshAll(name,selector)
-	}
+    let needUpdate = false;
+    const dateDisp = parseInt($("#progress").val())
+    if (dateDisp !== previousProgressBarValue || previousProgressBarValue == null) {
+        previousProgressBarValue = dateDisp
+        needUpdate = true
+    }
+    const selector = $("select  option:selected").val();
+    if (selector !== previousSelector || previousSelector == null) {
+        previousSelector = selector
+        needUpdate = true
+    }
+    if (needUpdate) {
+        const now = new Date(base + oneDay * dateDisp);
+        const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
+        refreshAll(name, selector)
+    }
 }
 
 function updateLeftPanel(param) {
-	if (previousSelector === "new_diagnosed"){
-		$("#globaldata").text(globalData.new_diagnosed)
-		$("#gloabaltype").text(param+" 全球新增确诊")
-	} else if (previousSelector==="total_diagnosed"){ // 加载累计确诊病例数据
-		$("#globaldata").text(globalData.total_diagnosed)
-		$("#gloabaltype").text(param+" 全球累计确诊")
-	} else if (previousSelector==="total_death"){ // 加载累计死亡病例数据
-		$("#globaldata").text(globalData.total_death)
-		$("#gloabaltype").text(param+" 全球累计死亡")
-	} else if (previousSelector==="new_death"){ // 加载新增死亡病例数据
-		$("#globaldata").text(globalData.new_death)
-		$("#gloabaltype").text(param+" 全球新增死亡")
-	} else if (previousSelector==="total_healed"){ // 加载累计治愈数据
-		$("#globaldata").text(globalData.total_healed)
-		$("#gloabaltype").text(param+" 全球累计治愈")
-	} else if (previousSelector==="still_healing"){ // 加载仍处于治疗阶段数据
-		$("#globaldata").text(globalData.still_healing)
-		$("#gloabaltype").text(param+" 全球仍在治愈")
-	} else if (previousSelector==="seriously_ill") { // 加载病危数据
-		$("#globaldata").text(globalData.seriously_ill)
-		$("#gloabaltype").text(param+" 全球重症病例")
-	}
+    if (previousSelector === "new_diagnosed") {
+        $("#globaldata").text(globalData.new_diagnosed)
+        $("#gloabaltype").text(param + " 全球新增确诊")
+    } else if (previousSelector === "total_diagnosed") { // 加载累计确诊病例数据
+        $("#globaldata").text(globalData.total_diagnosed)
+        $("#gloabaltype").text(param + " 全球累计确诊")
+    } else if (previousSelector === "total_death") { // 加载累计死亡病例数据
+        $("#globaldata").text(globalData.total_death)
+        $("#gloabaltype").text(param + " 全球累计死亡")
+    } else if (previousSelector === "new_death") { // 加载新增死亡病例数据
+        $("#globaldata").text(globalData.new_death)
+        $("#gloabaltype").text(param + " 全球新增死亡")
+    } else if (previousSelector === "total_healed") { // 加载累计治愈数据
+        $("#globaldata").text(globalData.total_healed)
+        $("#gloabaltype").text(param + " 全球累计治愈")
+    } else if (previousSelector === "still_healing") { // 加载仍处于治疗阶段数据
+        $("#globaldata").text(globalData.still_healing)
+        $("#gloabaltype").text(param + " 全球仍在治疗")
+    } else if (previousSelector === "seriously_ill") { // 加载病危数据
+        $("#globaldata").text(globalData.seriously_ill)
+        $("#gloabaltype").text(param + " 全球重症病例")
+    }
 }
 
 
 
-function refreshAll(dateName,selector){
-	if (dateName!==null){
-		fileName = "./data/" + dateName + ".json";
-	}
-	$.get(fileName).fail(function (dataSet){
-		let resultData = eval("(" + dataSet.responseText + ")");
-		let finalSets = resultData.inner_value;
-		globalData = finalSets[0];
-		dataList.splice(0,dataList.length);
-		if (selector==="new_diagnosed"){ // 加载新增确诊病例数据
-			for (item of finalSets){
-				dataList.push({name:item.region,value:item.new_diagnosed})
-			}
-		} else if (selector==="total_diagnosed"){ // 加载累计确诊病例数据
-			for (item of finalSets){
-				dataList.push({name:item.region,value:item.total_diagnosed})
-			}
-		} else if (selector==="total_death"){ // 加载累计死亡病例数据
-			for (item of finalSets){
-				dataList.push({name:item.region,value:item.total_death})
-			}
-		} else if (selector==="new_death"){ // 加载新增死亡病例数据
-			for (item of finalSets){
-				dataList.push({name:item.region,value:item.new_death})
-			}
-		} else if (selector==="total_healed"){ // 加载累计治愈数据
-			for (item of finalSets){
-				dataList.push({name:item.region,value:item.total_healed})
-			}
-		} else if (selector==="still_healing"){ // 加载仍处于治疗阶段数据
-			for (item of finalSets){
-				dataList.push({name:item.region,value:item.still_healing})
-			}
-		} else if (selector==="seriously_ill") { // 加载病危数据
-			for (item of finalSets) {
-				dataList.push({name: item.region, value: item.seriously_ill})
-			}
-		}
-		drawMap()
-		updateLeftPanel(dateName)
-	});
+function refreshAll(dateName, selector) {
+    if (dateName !== null) {
+        fileName = "./data/" + dateName + ".json";
+    }
+    $.get(fileName).fail(function(dataSet) {
+        let resultData = eval("(" + dataSet.responseText + ")");
+        let finalSets = resultData.inner_value;
+        globalData = finalSets[0];
+        dataList.splice(0, dataList.length);
+        if (selector === "new_diagnosed") { // 加载新增确诊病例数据
+            for (item of finalSets) {
+                dataList.push({ name: item.region, value: item.new_diagnosed })
+            }
+        } else if (selector === "total_diagnosed") { // 加载累计确诊病例数据
+            for (item of finalSets) {
+                dataList.push({ name: item.region, value: item.total_diagnosed })
+            }
+        } else if (selector === "total_death") { // 加载累计死亡病例数据
+            for (item of finalSets) {
+                dataList.push({ name: item.region, value: item.total_death })
+            }
+        } else if (selector === "new_death") { // 加载新增死亡病例数据
+            for (item of finalSets) {
+                dataList.push({ name: item.region, value: item.new_death })
+            }
+        } else if (selector === "total_healed") { // 加载累计治愈数据
+            for (item of finalSets) {
+                dataList.push({ name: item.region, value: item.total_healed })
+            }
+        } else if (selector === "still_healing") { // 加载仍处于治疗阶段数据
+            for (item of finalSets) {
+                dataList.push({ name: item.region, value: item.still_healing })
+            }
+        } else if (selector === "seriously_ill") { // 加载病危数据
+            for (item of finalSets) {
+                dataList.push({ name: item.region, value: item.seriously_ill })
+            }
+        }
+        drawMap()
+        updateLeftPanel(dateName)
+    });
 }
-
-

@@ -114,7 +114,7 @@ var lineStyle = {
 option = {
     backgroundColor: '#222222',
     title: {
-        text: 'Single Country',
+        text: '单个国家所有情况',
         left: 10,
         top: 10,
         textStyle: {
@@ -124,7 +124,7 @@ option = {
     },
     legend: {
         bottom: 5,
-        data: ['China', 'US', 'Korea'],
+        data: ['中国', '美国', '韩国'],
         itemGap: 20,
         textStyle: {
             color: '#d6d6d6',
@@ -143,12 +143,12 @@ option = {
     // },
     radar: {
         indicator: [
-            { name: 'NC', max: 300 },
-            { name: 'CC', max: 300 },
-            { name: 'ND', max: 300 },
-            { name: 'CD', max: 5 },
-            { name: 'UT', max: 200 },
-            { name: 'CR', max: 100 }
+            { name: '新增确诊', max: 300 },
+            { name: '累计确诊', max: 300 },
+            { name: '新增死亡', max: 300 },
+            { name: '累计死亡', max: 5 },
+            { name: '仍在治疗', max: 200 },
+            { name: '累计治愈', max: 100 }
         ],
         shape: 'circle',
         splitNumber: 5,
@@ -176,7 +176,7 @@ option = {
         }
     },
     series: [{
-            name: 'China',
+            name: '中国',
             type: 'radar',
             lineStyle: lineStyle,
             data: dataBJ,
@@ -189,7 +189,7 @@ option = {
             }
         },
         {
-            name: 'US',
+            name: '美国',
             type: 'radar',
             lineStyle: lineStyle,
             data: dataSH,
@@ -202,7 +202,7 @@ option = {
             }
         },
         {
-            name: 'Korea',
+            name: '韩国',
             type: 'radar',
             lineStyle: lineStyle,
             data: dataGZ,

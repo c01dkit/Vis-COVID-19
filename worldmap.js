@@ -1,3 +1,5 @@
+// import {countryCasesTitle} from "./countrycases";
+
 const oneDay = 24 * 3600 * 1000;
 const base = +new Date(2020, 2, 1);
 var fileName = "./data/2020-2-1.json"
@@ -89,7 +91,7 @@ function drawMap() {
 
 
 $(document).ready(function (){
-	refreshAll("2020-2-1","total_diagnosed");
+	refreshAll("2020-2-1","total_diagnosed"); //初始化
 	setInterval(checkIfUpdated,200)
 })
 
@@ -135,6 +137,7 @@ function updateLeftPanel(param) {
 		$("#globaldata").text(globalData.seriously_ill)
 		$("#gloabaltype").text(param+" 全球重症病例")
 	}
+	// countryCasesTitle = previousSelector
 }
 
 

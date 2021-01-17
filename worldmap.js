@@ -69,12 +69,12 @@ function refreshAll(dateName, selector) {
         globalData = finalSets[0];
         let maxData = finalSets[1];
         mapDataList.splice(0, mapDataList.length);
-        countryCasesDataY.splice(0,countryCasesDataY.length);
-        countryCasesDataX.splice(0,countryCasesDataX.length);
-        radarDataList.splice(0,radarDataList.length);
-        radarMaxValue.splice(0,radarMaxValue.length)
-        for (let i = 0; i < caseTypeEN.length; i++){
-            if (selector === caseTypeEN[i]){
+        countryCasesDataY.splice(0, countryCasesDataY.length);
+        countryCasesDataX.splice(0, countryCasesDataX.length);
+        radarDataList.splice(0, radarDataList.length);
+        radarMaxValue.splice(0, radarMaxValue.length)
+        for (let i = 0; i < caseTypeEN.length; i++) {
+            if (selector === caseTypeEN[i]) {
                 let j = 0;
                 for (item of finalSets) {
                     let tempName = item.region;
@@ -88,29 +88,29 @@ function refreshAll(dateName, selector) {
                         countryCasesDataY.push(tempName);
                     }
                     // 更新右上雷达图
-                    if (tempName === radarCountryName){ // TODO 数据加载还有bUG
+                    if (tempName === radarCountryName) { // TODO 数据加载还有bUG
                         // 选择当日单项最大值作为max
                         radarMaxValue.push([
-                            eval("maxData."+caseTypeEN[0])+1,
-                            eval("maxData."+caseTypeEN[1])+1,
-                            eval("maxData."+caseTypeEN[2])+1,
-                            eval("maxData."+caseTypeEN[3])+1,
-                            eval("maxData."+caseTypeEN[4])+1,
-                            eval("maxData."+caseTypeEN[5])+1,
-                            eval("maxData."+caseTypeEN[6])+1,
+                            eval("maxData." + caseTypeEN[0]) + 1,
+                            eval("maxData." + caseTypeEN[1]) + 1,
+                            eval("maxData." + caseTypeEN[2]) + 1,
+                            eval("maxData." + caseTypeEN[3]) + 1,
+                            eval("maxData." + caseTypeEN[4]) + 1,
+                            eval("maxData." + caseTypeEN[5]) + 1,
+                            eval("maxData." + caseTypeEN[6]) + 1,
                         ]);
 
                         radarDataList.push([
-                            eval("item."+caseTypeEN[0]),
-                            eval("item."+caseTypeEN[1]),
-                            eval("item."+caseTypeEN[2]),
-                            eval("item."+caseTypeEN[3]),
-                            eval("item."+caseTypeEN[4]),
-                            eval("item."+caseTypeEN[5]),
-                            eval("item."+caseTypeEN[6]),
+                            eval("item." + caseTypeEN[0]),
+                            eval("item." + caseTypeEN[1]),
+                            eval("item." + caseTypeEN[2]),
+                            eval("item." + caseTypeEN[3]),
+                            eval("item." + caseTypeEN[4]),
+                            eval("item." + caseTypeEN[5]),
+                            eval("item." + caseTypeEN[6]),
                         ])
-                        console.log(radarDataList+" is data list")
-                        console.log(radarMaxValue+" is radarMax")
+                        console.log(radarDataList + " is data list")
+                        console.log(radarMaxValue + " is radarMax")
                     }
                 }
                 break;
@@ -451,13 +451,13 @@ function drawRightTopRadar() {
         },
         radar: {
             indicator: [
-                {name: caseType[0], max: radarMaxValue[0]},
-                {name: caseType[1], max: radarMaxValue[1]},
-                {name: caseType[2], max: radarMaxValue[2]},
-                {name: caseType[3], max: radarMaxValue[3]},
-                {name: caseType[4], max: radarMaxValue[4]},
-                {name: caseType[5], max: radarMaxValue[5]},
-                {name: caseType[6], max: radarMaxValue[6]},
+                { name: caseType[0], max: radarMaxValue[0] },
+                { name: caseType[1], max: radarMaxValue[1] },
+                { name: caseType[2], max: radarMaxValue[2] },
+                { name: caseType[3], max: radarMaxValue[3] },
+                { name: caseType[4], max: radarMaxValue[4] },
+                { name: caseType[5], max: radarMaxValue[5] },
+                { name: caseType[6], max: radarMaxValue[6] },
             ],
             shape: 'circle',
             splitNumber: 5,
@@ -478,32 +478,25 @@ function drawRightTopRadar() {
             splitArea: {
                 show: false
             },
-            axisLabel:{ //TODO 打开刻度用于调试
-                show: true
-            },
             axisLine: {
                 lineStyle: {
                     color: 'rgba(238, 197, 102, 0.5)'
                 }
             }
         },
-<<<<<<< HEAD
-=======
-        tooltip: {},
->>>>>>> 9ff7e2ab010fb493178e13a7a761cfba69e9ec1b
         series: [{
-            name: radarCountryName,
-            type: 'radar',
-            lineStyle: lineStyle,
-            data: radarDataList,
-            symbol: 'none',
-            itemStyle: {
-                color: '#F9713C'
+                name: radarCountryName,
+                type: 'radar',
+                lineStyle: lineStyle,
+                data: radarDataList,
+                symbol: 'none',
+                itemStyle: {
+                    color: '#F9713C'
+                },
+                areaStyle: {
+                    opacity: 0.1
+                }
             },
-            areaStyle: {
-                opacity: 0.1
-            }
-        },
 
         ]
     };

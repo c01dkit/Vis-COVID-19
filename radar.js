@@ -142,6 +142,7 @@
             //     }
             // },
             radar: {
+
                 indicator: [
                     { name: '新增确诊', max: 300 },
                     { name: '累计确诊', max: 300 },

@@ -11,21 +11,22 @@ const caseTypeEN = ['total_diagnosed', 'new_diagnosed', 'total_death', 'new_deat
 var globalData = null; // 置空左上全球数据
 
 // 左下国家对比图
-const maxNum = 10; // 设定最大排名数目
+const maxNum = 20; // 设定最大排名数目
 let countryCasesType = "----";
 var countryCasesDataX = [];
 var countryCasesDataY = [];
+var countryCasesData = [];
 
 // 中部地图数据
 var mapDataList = [] // 置空中间地图数据
 
 // 右上雷达图
 var radarDataList = [] // 置空右上雷达图数据
-var radarCountryName = "未选择"
+var radarCountryName = ""
 var radarMaxValue = [] // 右上雷达图最大值限定
 
 // 右下中美对比
-const contrastTitle = '中美对比'
+const contrastTitle = ''
 var contrastXAxisTime = []; //时间轴
 var semaphore = 0; // 采用异步加载 定时器检查完成后重载
 var china_data = []; //中国累计确诊
@@ -71,6 +72,7 @@ function refreshAll(dateName, selector) {
         mapDataList.splice(0, mapDataList.length);
         countryCasesDataY.splice(0, countryCasesDataY.length);
         countryCasesDataX.splice(0, countryCasesDataX.length);
+        countryCasesData.splice(0, countryCasesData.length);
         radarDataList.splice(0, radarDataList.length);
         radarMaxValue.splice(0, radarMaxValue.length)
         for (let i = 0; i < caseTypeEN.length; i++) {
@@ -86,6 +88,7 @@ function refreshAll(dateName, selector) {
                     if (j < maxNum && j > 2) { // 跳过全球数据和单项最高数据
                         countryCasesDataX.push(tempValue);
                         countryCasesDataY.push(tempName);
+                        countryCasesData.push([tempValue, tempName]);
                     }
                     // 更新右上雷达图
                     if (tempName === radarCountryName) { // TODO 数据加载还有bUG
@@ -159,8 +162,9 @@ function updateTextBySelector(param) {
     for (var i = 0; i < caseTypeEN.length; i++) {
         if (previousSelector === caseTypeEN[i]) {
             $("#globaldata").text(eval("globalData." + caseTypeEN[i]))
-            $("#gloabaltype").text(param + " 全球" + caseType[i])
-            countryCasesType = caseType[i]
+            $("#gloabaltype").text("全球" + caseType[i])
+            $("#title_left").text(" " + param)
+            countryCasesType = "TOP20 " + caseType[i]
             break
         }
     }
@@ -191,17 +195,19 @@ function drawLeftBottomCountryCases() {
 
         }],
         yAxis: [{
-            data: countryCasesDataY,
+            data: countryCasesData,
             type: "category",
             //"name": "Country",
             //是否反向坐标轴
             inverse: true,
             axisLabel: {
+                show: false,
                 color: "#fff",
                 fontSize: 14,
                 fontWeight: "normal",
-                align: 'left',
-                padding: [-80, 0, 0, 10]
+                align: 'right',
+                padding: [-80, 0, 0, 150]
+
             },
 
             show: true,
@@ -234,6 +240,14 @@ function drawLeftBottomCountryCases() {
             // "axisPointer": {
             //     "type": "shadow"
             // },
+            // trigger: 'item',
+            // formatter: function(a) {
+            //     val val = "";
+            //     val = a[1];
+            //     val += " ";
+            //     val += a[0];
+            //     return val;
+            // }
         },
         legend: {
             show: true,
@@ -249,13 +263,20 @@ function drawLeftBottomCountryCases() {
 
         // bar & item
         series: [{
-
             type: "bar",
+
             name: countryCasesType,
-            // "data": data_x,
+            data: countryCasesData.sort(function(a, b) {
+                return b[0] - a[0];
+            }),
+
+
+
             data: countryCasesDataX.sort(function(a, b) {
                 return b - a;
             }),
+
+
             itemStyle: {
                 "barBorderRadius": 8
             },
@@ -264,12 +285,20 @@ function drawLeftBottomCountryCases() {
             barCateGoryGap: 20,
             // "stack": "total",
             label: {
-                color: "#fff",
+                color: "#d6d6d6",
                 fontSize: 14,
                 //"position": [0, '-20'],
                 fontWeight: "normal",
                 show: true,
+                formatter: '{b}',
+                position: [25, 82],
+                align: 'center',
+                padding: [-80, 0, 0, 150],
 
+                // fontFamily: "Arial"
+                // formatter: function(a) {
+                //     return a
+                // },
             },
 
             /*
@@ -289,7 +318,7 @@ function drawLeftBottomCountryCases() {
         // 滚动条
 
         dataZoom: [{
-            type: 'slider',
+            type: 'inside',
             show: true,
             filterMode: "empty",
             disabled: false,
@@ -424,6 +453,7 @@ function drawRightTopRadar() {
     };
 
     let option = {
+
         backgroundColor: '#222222',
         title: {
             text: radarCountryName,
@@ -450,6 +480,7 @@ function drawRightTopRadar() {
             }
         },
         radar: {
+            radius: 133,
             indicator: [
                 { name: caseType[0], max: radarMaxValue[0] },
                 { name: caseType[1], max: radarMaxValue[1] },
@@ -463,7 +494,8 @@ function drawRightTopRadar() {
             splitNumber: 5,
             name: {
                 textStyle: {
-                    color: 'rgb(238, 197, 102)'
+                    color: 'rgb(238, 197, 102)',
+                    fontSize: 13
                 }
             },
             splitLine: {
@@ -493,6 +525,7 @@ function drawRightTopRadar() {
                 itemStyle: {
                     color: '#F9713C'
                 },
+
                 areaStyle: {
                     opacity: 0.1
                 }
@@ -571,32 +604,38 @@ function drawRightBottomContrast() {
             }
         },
         dataZoom: [{
-            type: 'inside',
+            type: 'slider',
             start: 0,
-            end: 100
-        }, {
-            start: 0,
-            end: 10,
+            end: 45,
+            show: true,
+            bottom: 10,
+            height: 15,
+
             // handleIcon: url(".pics/china_logo.png"),
-            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-            handleSize: '80%',
+            // handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '0%',
             handleStyle: {
                 color: '#fff',
                 shadowBlur: 3,
                 shadowColor: 'rgba(0, 0, 0, 0.2)',
                 shadowOffsetX: 2,
-                shadowOffsetY: 2
+                shadowOffsetY: 2,
+                borderWidth: 0
+
             },
-            fillerColor: 'rgba(0, 0, 0, 0.1)', // 拖动条的颜色
+            //fillerColor: 'rgba(0, 0, 0, 0)', // 拖动条的颜色
             borderColor: "none",
             //backgroundColor: 'rgba(120, 120, 120, 1)',
             //showDetail: false
+
+            fillerColor: 'rgba(0, 0, 0, 0.1)', // 拖动条的颜色
+
+
         }],
         series: [{
             name: '中国',
             type: 'bar',
             color: 'red',
-
             data: china_data,
             animationDelay: function(idx) {
                 return idx * 10;
@@ -620,6 +659,6 @@ function drawRightBottomContrast() {
 }
 
 $(document).ready(function() {
-    refreshAll("2020-2-1", caseTypeEN[0])
+    refreshAll("2020-3-25", caseTypeEN[0])
     setInterval(checkIfUpdated, 200)
 })

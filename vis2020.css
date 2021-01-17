@@ -6,12 +6,12 @@
         
         #title {
             position: absolute;
-            width: 80%;
+            width: 77%;
             height: 7%;
             text-align: center;
             background-color: #222222;
             top: 1%;
-            left: 8%;
+            left: 13%;
             right: 12%;
             overflow: hidden;
             float: left;
@@ -19,7 +19,7 @@
         
         #title_left {
             position: absolute;
-            width: 7%;
+            width: 12%;
             height: 7%;
             text-align: center;
             background-color: #222222;
@@ -28,6 +28,15 @@
             right: 92%;
             overflow: hidden;
             float: left;
+            color: #d6d6d6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 58px;
+            font-size: 20pt;
+        }
+        
+        #title_left_time {
+            position: relative;
+            left: 5;
         }
         /*for selection*/
         

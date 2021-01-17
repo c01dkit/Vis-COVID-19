@@ -10,7 +10,6 @@ const caseTypeEN = ['total_diagnosed', 'new_diagnosed', 'total_death', 'new_deat
     // 左上全球数据
 var globalData = null; // 置空左上全球数据
 
-
 // 左下国家对比图
 const maxNum = 5; // 设定最大排名数目
 let countryCasesType = "----";

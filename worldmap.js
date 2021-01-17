@@ -22,27 +22,21 @@ var mapDataList = [] // 置空中间地图数据
 
 // 右上雷达图
 var radarDataList = [] // 置空右上雷达图数据
-var radarCountryName = "----"
+var radarCountryName = "未选择"
 var radarMaxValue = [] // 右上雷达图最大值限定
 
 // 右下中美对比
 const contrastTitle = '中美对比'
 var contrastXAxisTime = []; //时间轴
+var semaphore = 0; // 采用异步加载 定时器检查完成后重载
 var china_data = []; //中国累计确诊
 var us_data = []; //美国累计确诊
-// 加入数据后删除此循环
-// for (var i = 0; i < 100; i++) {
-//     contrastXAxisTime.push('Date' + i);
-//     china_data.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
-//     us_data.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
-// }
+
 
 for (let i = 0 ; i < 144; i++){
     let now = new Date(base+oneDay*i);
-    const fileName = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
-    contrastXAxisTime.push(fileName.replaceAll("-","/"));
-    china_data.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
-    us_data.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
+    const timeName = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
+    contrastXAxisTime.push(timeName.replaceAll("-","/"));
 }
 
 function checkIfUpdated(compulsory) {
@@ -121,10 +115,40 @@ function refreshAll(dateName, selector) {
         }
         updateTextBySelector(dateName)
         drawMiddleMap()
-        drawRightBottomContrast()
         drawRightTopRadar()
         drawLeftBottomCountryCases()
     });
+
+
+    $.get("./data/China.json").done(function (dataSet) {
+        let finalSets = dataSet.inner_value;
+        console.log("load China")
+        china_data.splice(0,china_data.length)
+        for (i of finalSets){
+            china_data.push(eval("i."+previousSelector))
+        }
+        semaphore+=1;
+        if (semaphore === 2){
+            semaphore = 0;
+            drawRightBottomContrast()
+        }
+    })
+
+    $.get("./data/America.json").fail(function (dataSet) {
+        let resultData = eval("(" + dataSet.responseText + ")");
+        let finalSets = resultData.inner_value;
+        // let finalSets = dataSet.inner_value;
+        console.log("load us")
+        us_data.splice(0,us_data.length)
+        for (i of finalSets){
+            us_data.push(eval("i."+previousSelector))
+        }
+        semaphore+=1;
+        if (semaphore === 2){
+            semaphore = 0;
+            drawRightBottomContrast()
+        }
+    })
 }
 
 // 根据下拉框重绘所有文字部分

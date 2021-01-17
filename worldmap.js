@@ -11,7 +11,7 @@ const caseTypeEN = ['total_diagnosed', 'new_diagnosed', 'total_death', 'new_deat
 var globalData = null; // 置空左上全球数据
 
 // 左下国家对比图
-const maxNum = 5; // 设定最大排名数目
+const maxNum = 10; // 设定最大排名数目
 let countryCasesType = "----";
 var countryCasesDataX = [];
 var countryCasesDataY = [];
@@ -39,7 +39,6 @@ for (let i = 0; i < 144; i++) {
 }
 
 function checkIfUpdated(compulsory) {
-
     let needUpdate = false;
     const dateDisp = parseInt($("#progress").val())
     if (dateDisp !== previousProgressBarValue || previousProgressBarValue == null) {
@@ -56,6 +55,7 @@ function checkIfUpdated(compulsory) {
         const name = [now.getFullYear(), now.getMonth(), now.getDate()].join('-');
         refreshAll(name, selector)
     }
+
 }
 
 function refreshAll(dateName, selector) {
@@ -67,12 +67,14 @@ function refreshAll(dateName, selector) {
         let resultData = eval("(" + dataSet.responseText + ")");
         let finalSets = resultData.inner_value;
         globalData = finalSets[0];
+        let maxData = finalSets[1];
         mapDataList.splice(0, mapDataList.length);
-        countryCasesDataY.splice(0, countryCasesDataY.length);
-        countryCasesDataX.splice(0, countryCasesDataX.length);
-        radarDataList.splice(0, radarDataList.length);
-        for (let i = 0; i < caseTypeEN.length; i++) {
-            if (selector === caseTypeEN[i]) {
+        countryCasesDataY.splice(0,countryCasesDataY.length);
+        countryCasesDataX.splice(0,countryCasesDataX.length);
+        radarDataList.splice(0,radarDataList.length);
+        radarMaxValue.splice(0,radarMaxValue.length)
+        for (let i = 0; i < caseTypeEN.length; i++){
+            if (selector === caseTypeEN[i]){
                 let j = 0;
                 for (item of finalSets) {
                     let tempName = item.region;
@@ -81,32 +83,34 @@ function refreshAll(dateName, selector) {
                     mapDataList.push({ name: tempName, value: tempValue });
                     // 更新左下国家排名图
                     j++;
-                    if (j < maxNum && j > 1) { // 跳过全球数据
+                    if (j < maxNum && j > 2) { // 跳过全球数据和单项最高数据
                         countryCasesDataX.push(tempValue);
                         countryCasesDataY.push(tempName);
                     }
                     // 更新右上雷达图
-                    if (tempName === radarCountryName) {
-                        radarDataList.push([
-                                eval("item." + caseTypeEN[0]),
-                                eval("item." + caseTypeEN[1]),
-                                eval("item." + caseTypeEN[2]),
-                                eval("item." + caseTypeEN[3]),
-                                eval("item." + caseTypeEN[4]),
-                                eval("item." + caseTypeEN[5]),
-                                eval("item." + caseTypeEN[6]),
-                            ])
-                            //TODO: 这里雷达图的最大值姑且这样用了。 最大值怎么确定合适呢？ 而且雷达图如果堆叠的话需要请求多个json，数据源还需要处理。
-
+                    if (tempName === radarCountryName){ // TODO 数据加载还有bUG
+                        // 选择当日单项最大值作为max
                         radarMaxValue.push([
-                            eval("item." + caseTypeEN[0]) + 200,
-                            eval("item." + caseTypeEN[1]) + 200,
-                            eval("item." + caseTypeEN[2]) + 200,
-                            eval("item." + caseTypeEN[3]) + 200,
-                            eval("item." + caseTypeEN[4]) + 200,
-                            eval("item." + caseTypeEN[5]) + 200,
-                            eval("item." + caseTypeEN[6]) + 200,
+                            eval("maxData."+caseTypeEN[0])+1,
+                            eval("maxData."+caseTypeEN[1])+1,
+                            eval("maxData."+caseTypeEN[2])+1,
+                            eval("maxData."+caseTypeEN[3])+1,
+                            eval("maxData."+caseTypeEN[4])+1,
+                            eval("maxData."+caseTypeEN[5])+1,
+                            eval("maxData."+caseTypeEN[6])+1,
+                        ]);
+
+                        radarDataList.push([
+                            eval("item."+caseTypeEN[0]),
+                            eval("item."+caseTypeEN[1]),
+                            eval("item."+caseTypeEN[2]),
+                            eval("item."+caseTypeEN[3]),
+                            eval("item."+caseTypeEN[4]),
+                            eval("item."+caseTypeEN[5]),
+                            eval("item."+caseTypeEN[6]),
                         ])
+                        console.log(radarDataList+" is data list")
+                        console.log(radarMaxValue+" is radarMax")
                     }
                 }
                 break;
@@ -164,6 +168,7 @@ function updateTextBySelector(param) {
 
 // 重绘左下国家对比图
 function drawLeftBottomCountryCases() {
+    $("#left2").empty().removeAttr("_echarts_instance_");
     var left2 = echarts.init(document.getElementById('left2'));
     var option = {
         color: '#f02512',
@@ -316,6 +321,7 @@ function drawLeftBottomCountryCases() {
 
 // 重绘中部地图
 function drawMiddleMap() {
+    $("#map").empty().removeAttr("_echarts_instance_");
     var map = echarts.init(document.getElementById('map')); //初始化
     var COLORS = ["#eeeeee", "#faebd2", "#FFDEAD", "#FF7F50", "#FF4500", "#FF0000", "#CD0000"]; //图例里的颜色
     var option = { //配置项（名称）
@@ -407,6 +413,7 @@ function drawMiddleMap() {
 
 // 重绘右上雷达图
 function drawRightTopRadar() {
+    $("#right12").empty().removeAttr("_echarts_instance_");
     var radar = echarts.init(document.getElementById('right12')); //初始化
 
     var lineStyle = {
@@ -416,7 +423,7 @@ function drawRightTopRadar() {
         }
     };
 
-    option = {
+    let option = {
         backgroundColor: '#222222',
         title: {
             text: radarCountryName,
@@ -444,13 +451,13 @@ function drawRightTopRadar() {
         },
         radar: {
             indicator: [
-                { name: caseType[0], max: radarMaxValue[0] },
-                { name: caseType[1], max: radarMaxValue[1] },
-                { name: caseType[2], max: radarMaxValue[2] },
-                { name: caseType[3], max: radarMaxValue[3] },
-                { name: caseType[4], max: radarMaxValue[4] },
-                { name: caseType[5], max: radarMaxValue[5] },
-                { name: caseType[6], max: radarMaxValue[6] },
+                {name: caseType[0], max: radarMaxValue[0]},
+                {name: caseType[1], max: radarMaxValue[1]},
+                {name: caseType[2], max: radarMaxValue[2]},
+                {name: caseType[3], max: radarMaxValue[3]},
+                {name: caseType[4], max: radarMaxValue[4]},
+                {name: caseType[5], max: radarMaxValue[5]},
+                {name: caseType[6], max: radarMaxValue[6]},
             ],
             shape: 'circle',
             splitNumber: 5,
@@ -471,35 +478,41 @@ function drawRightTopRadar() {
             splitArea: {
                 show: false
             },
+            axisLabel:{ //TODO 打开刻度用于调试
+                show: true
+            },
             axisLine: {
                 lineStyle: {
                     color: 'rgba(238, 197, 102, 0.5)'
                 }
             }
         },
+<<<<<<< HEAD
+=======
+        tooltip: {},
+>>>>>>> 9ff7e2ab010fb493178e13a7a761cfba69e9ec1b
         series: [{
-                name: radarCountryName,
-                type: 'radar',
-                lineStyle: lineStyle,
-                data: radarDataList,
-                symbol: 'none',
-                itemStyle: {
-                    color: '#F9713C'
-                },
-                areaStyle: {
-                    opacity: 0.1
-                }
+            name: radarCountryName,
+            type: 'radar',
+            lineStyle: lineStyle,
+            data: radarDataList,
+            symbol: 'none',
+            itemStyle: {
+                color: '#F9713C'
             },
+            areaStyle: {
+                opacity: 0.1
+            }
+        },
 
         ]
     };
-
     radar.setOption(option);
 }
 
 // 重绘右下中美对比图
 function drawRightBottomContrast() {
-
+    $("#right3").empty().removeAttr("_echarts_instance_");
     var right3 = echarts.init(document.getElementById('right3')); //初始化
 
     option = {

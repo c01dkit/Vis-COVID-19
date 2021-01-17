@@ -1,5 +1,6 @@
 {"dateTime":"2020-2-27", "inner_value":[
-{"region": "全球", "total_diagnosed": 82622, "new_diagnosed": 1072, "total_death": 2848, "new_death": 57, "total_healed": 0, "still_healing": 0, "seriously_ill": 0},
+{"region": "全球", "total_diagnosed": 80907, "new_diagnosed": 1083, "total_death": 2770, "new_death": 64, "total_healed": 29785, "still_healing": 45696, "seriously_ill": 8752},
+{"region": "maxValues", "total_diagnosed": 78199, "new_diagnosed": 505, "total_death": 2718, "new_death": 52, "total_healed": 29785, "still_healing": 45696, "seriously_ill": 8752},
 {"region": "美国", "total_diagnosed": 59, "new_diagnosed": 6, "total_death": 0, "new_death": 0, "total_healed": 0, "still_healing": 0, "seriously_ill": 0},
 {"region": "西班牙", "total_diagnosed": 12, "new_diagnosed": 10, "total_death": 0, "new_death": 0, "total_healed": 0, "still_healing": 0, "seriously_ill": 0},
 {"region": "意大利", "total_diagnosed": 400, "new_diagnosed": 78, "total_death": 12, "new_death": 1, "total_healed": 0, "still_healing": 0, "seriously_ill": 0},

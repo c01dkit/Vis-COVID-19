@@ -436,6 +436,12 @@ function drawRightTopRadar() {
                 fontSize: 12
             },
         },
+        tooltip: {
+            trigger: 'item',
+            textStyle: {
+                align: 'left'
+            }
+        },
         radar: {
             indicator: [
                 { name: caseType[0], max: radarMaxValue[0] },
@@ -470,9 +476,6 @@ function drawRightTopRadar() {
                     color: 'rgba(238, 197, 102, 0.5)'
                 }
             }
-        },
-        tooltip: {
-
         },
         series: [{
                 name: radarCountryName,

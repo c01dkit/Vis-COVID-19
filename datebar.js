@@ -21,9 +21,9 @@ var option = {
         data: date,
         axisPointer: {
             type: 'shadow',
-            label: {show: false},
+            label: { show: false },
             triggerTooltip: true,
-            show:true,
+            show: true,
             handle: {
                 show: true,
                 margin: 30,
@@ -51,7 +51,7 @@ var option = {
     //         shadowOffsetY: 2
     //     },
     //     fillerColor: '#222222', // 拖动条的颜色
-    //     borderWidth: 10,
+    //     
     //     borderColor: "black",
     //     backgroundColor: 'rgba(120, 120, 120, 0.3)',
     //

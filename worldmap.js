@@ -24,7 +24,7 @@ var mapDataList = [] // 置空中间地图数据
 var radarDataList = [] // 置空右上雷达图数据
 var radarCountryName = ""
 var radarMaxValue = [] // 右上雷达图最大值限定
-
+var maxData = null; //置空当日最大指标
 // 右下中美对比
 const contrastTitle = ''
 var contrastXAxisTime = []; //时间轴
@@ -68,13 +68,24 @@ function refreshAll(dateName, selector) {
         let resultData = eval("(" + dataSet.responseText + ")");
         let finalSets = resultData.inner_value;
         globalData = finalSets[0];
-        let maxData = finalSets[1];
+        maxData = finalSets[1];
         mapDataList.splice(0, mapDataList.length);
         countryCasesDataY.splice(0, countryCasesDataY.length);
         countryCasesDataX.splice(0, countryCasesDataX.length);
         countryCasesData.splice(0, countryCasesData.length);
         radarDataList.splice(0, radarDataList.length);
-        radarMaxValue.splice(0, radarMaxValue.length)
+        radarMaxValue.splice(0, radarMaxValue.length);
+        let notFound = true;
+        // 选择当日单项最大值作为max
+        radarMaxValue.push(
+            eval("maxData." + caseTypeEN[0]) + 1,
+            eval("maxData." + caseTypeEN[1]) + 1,
+            eval("maxData." + caseTypeEN[2]) + 1,
+            eval("maxData." + caseTypeEN[3]) + 1,
+            eval("maxData." + caseTypeEN[4]) + 1,
+            eval("maxData." + caseTypeEN[5]) + 1,
+            eval("maxData." + caseTypeEN[6]) + 1,
+        );
         for (let i = 0; i < caseTypeEN.length; i++) {
             if (selector === caseTypeEN[i]) {
                 let j = 0;
@@ -91,18 +102,8 @@ function refreshAll(dateName, selector) {
                         countryCasesData.push([tempValue, tempName]);
                     }
                     // 更新右上雷达图
-                    if (tempName === radarCountryName) { // TODO 数据加载还有bUG
-                        // 选择当日单项最大值作为max
-                        radarMaxValue.push([
-                            eval("maxData." + caseTypeEN[0]) + 1,
-                            eval("maxData." + caseTypeEN[1]) + 1,
-                            eval("maxData." + caseTypeEN[2]) + 1,
-                            eval("maxData." + caseTypeEN[3]) + 1,
-                            eval("maxData." + caseTypeEN[4]) + 1,
-                            eval("maxData." + caseTypeEN[5]) + 1,
-                            eval("maxData." + caseTypeEN[6]) + 1,
-                        ]);
-
+                    if (tempName === radarCountryName && notFound) {
+                        notFound = false;
                         radarDataList.push([
                             eval("item." + caseTypeEN[0]),
                             eval("item." + caseTypeEN[1]),

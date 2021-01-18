@@ -374,12 +374,12 @@ function drawMiddleMap() {
             },
             pieces: [
                 { value: 0, color: COLORS[0] },
-                { min: 1, max: 9, color: COLORS[1] },
-                { min: 10, max: 99, color: COLORS[2] },
-                { min: 100, max: 499, color: COLORS[3] },
-                { min: 500, max: 999, color: COLORS[4] },
-                { min: 1000, max: 10000, color: COLORS[5] },
-                { min: 10000, color: COLORS[6] }
+                { min: 1, max: 99, color: COLORS[1] },
+                { min: 100, max: 499, color: COLORS[2] },
+                { min: 500, max: 999, color: COLORS[3] },
+                { min: 1000, max: 9999, color: COLORS[4] },
+                { min: 10000, max: 99999, color: COLORS[5] },
+                { min: 100000, color: COLORS[6] }
             ],
             inRange: {
                 color: COLORS //取值范围的颜色
@@ -660,6 +660,6 @@ function drawRightBottomContrast() {
 }
 
 $(document).ready(function() {
-    refreshAll("2020-3-25", caseTypeEN[0])
+    refreshAll("2020-4-1", caseTypeEN[0])
     setInterval(checkIfUpdated, 200)
 })

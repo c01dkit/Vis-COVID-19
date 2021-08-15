@@ -19,4 +19,4 @@ anywhere
 
 我们也已经将系统部署在阿里云服务器上，点击链接即可访问：
 
-http://www.c01dkit.com/ZJUwork/InfoVis/index.html
+http://www.c01dkit.com/ZJUwork/InfoVis/index.html （由于服务器到期，无法访问）
